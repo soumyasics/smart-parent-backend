@@ -1,6 +1,7 @@
 const RpModel = require("./rp/rpSchema.js");
 const ParentModel = require("./Parent/parentSchema.js");
 const multer = require("multer");
+const CouncilarModel = require("./councilar/councilarSchema.js");
 const storage = multer.diskStorage({
   destination: function (req, res, cb) {
     cb(null, "./upload");
@@ -25,6 +26,10 @@ const isEmailUnique = async (req, res, next) => {
     }
     const existingParent = await ParentModel.findOne({ email });
     if (existingParent) {
+      return res.status(400).json({ message: "Email is already taken." });
+    }
+    const existingCouncilar = await CouncilarModel.findOne({ email });
+    if (existingCouncilar) {
       return res.status(400).json({ message: "Email is already taken." });
     }
     next();
