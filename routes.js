@@ -33,6 +33,9 @@ router.post("/loginRp", checkEmailAndPassword, rpController.loginRp);
 router.get("/view-all-rp", rpController.viewAllRps);
 router.get("/view-rp-by-id/:id", rpController.viewRpById);
 
+router.post("/acceptRpRegistration/:id", rpController.acceptRegistration);
+router.post("/rejectRpRegistration/:id", rpController.rejectRegistration);
+
 // councilar routs
 router.post(
   "/registerCouncilar",
@@ -51,7 +54,6 @@ router.get("/viewCouncilarById/:id", councilarController.viewCouncilarById);
 router.patch("/editCouncilarById/:id", councilarController.editCouncilarById);
 router.patch("/updatePassword/:id", councilarController.updatePassword);
 router.delete("/deleteCouncilarById/:id", councilarController.deleteCouncilarById);
-
 
 //tutorials
 
