@@ -13,14 +13,24 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }).single("image");
 //User Registration
 
-const registerParent = (req, res) => {
-  const newParent = new parents({
+const registerParent = async (req, res) => {
+  console.log('req.body',req.body)
+
+  const checkEmail = await parents.findOne({ email: req.body.email });
+  if (checkEmail) {
+    return res.status(400).json({
+      status: 400,
+      message: "Mail Id already in Use",
+    });
+  }
+
+  const newParent = await new parents({
     name: req.body.name,
     email: req.body.email,
     contact: req.body.contact,
     password: req.body.password,
-    date: req.body.date,
-    
+    childDob: req.body.date,
+    childName: req.body.childName
   });
   newParent
     .save()

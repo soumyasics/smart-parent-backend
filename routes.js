@@ -28,6 +28,9 @@ router.post(
 );
 router.post("/loginRp", checkEmailAndPassword, rpController.loginRp);
 
+router.get("/view-all-rp", rpController.viewAllRps);
+router.get("/view-rp-by-id/:id", rpController.viewRpById);
+
 // councilar routs
 router.post(
   "/registerCouncilar",

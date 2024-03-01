@@ -50,4 +50,33 @@ const loginRp = async (req, res) => {
   }
 };
 
-module.exports = { registerRp, loginRp };
+const viewAllRps = async (req, res) => {
+  try {
+    const rps = await RpModel.find();
+    return res.status(200).json({ message: "All Rps", data: rps });
+  } catch (error) {
+    return res.status(500).json({ message: "server error on login rp", error });
+  }
+};
+
+const viewRpById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({ message: "Id is required" });
+    }
+
+    const rp = await RpModel.findById(id);
+    if (!rp) {
+      return res.status(404).json({ message: "rp not found" });
+    }
+
+    return res.status(200).json({ message: "rp", data: rp });
+  } catch (error) {
+    return res.status(500).json({ message: "server error on login rp", error });
+  }
+};
+
+
+
+module.exports = { registerRp, loginRp, viewAllRps, viewRpById };
