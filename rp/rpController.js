@@ -1,11 +1,18 @@
 const RpModel = require("./rpSchema.js");
 const bcrypt = require("bcrypt");
+const multer = require("multer");
+
+
+
 const registerRp = async (req, res) => {
+
   try {
     const { name, email, password, contact, age, experienceYear } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const rp = await new RpModel({
+
+    // Construct RpModel object
+    const rp = new RpModel({
       name,
       contact,
       experienceYear,
@@ -13,7 +20,7 @@ const registerRp = async (req, res) => {
       age,
       password: hashedPassword,
     });
-
+    console.log("rp", rp);
     await rp.save();
 
     return res.status(200).json({
@@ -76,7 +83,5 @@ const viewRpById = async (req, res) => {
     return res.status(500).json({ message: "server error on login rp", error });
   }
 };
-
-
 
 module.exports = { registerRp, loginRp, viewAllRps, viewRpById };

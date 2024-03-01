@@ -32,7 +32,7 @@ const rpSchema = mongoose.Schema(
       default: "0",
     },
     qualification: {
-      
+      type: String
     },
     certificateImg: {
       type: Object,
