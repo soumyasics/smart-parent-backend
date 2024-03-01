@@ -5,6 +5,8 @@ const multer = require("multer");
 const parentController = require("./Parent/parentController");
 const rpController = require("./rp/rpController");
 const councilarController = require("./councilar/councilarController");
+const Tutorials = require("./rp/Tutorials/tutorialController");
+
 // common middlewares
 const { upload, isEmailUnique } = require("./middlewares");
 // resource person middlewares
@@ -50,4 +52,10 @@ router.patch("/editCouncilarById/:id", councilarController.editCouncilarById);
 router.patch("/updatePassword/:id", councilarController.updatePassword);
 router.delete("/deleteCouncilarById/:id", councilarController.deleteCouncilarById);
 
+
+//tutorials
+
+router.get("/addTutorial", Tutorials.addTutorial);
+router.get("/editVideoTutorial/:id", Tutorials.editVideoTutorial);
+router.patch("/deleteVideoTutorial/:id", Tutorials.deleteVideoTutorial);
 module.exports = router;
