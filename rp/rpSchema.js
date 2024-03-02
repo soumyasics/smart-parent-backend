@@ -24,15 +24,15 @@ const rpSchema = mongoose.Schema(
       default: "",
     },
     isAdminApproved: {
-      type: Boolean,
-      default: false,
+      type: String,
+      default: "pending",
     },
     experienceYear: {
       type: String,
       default: "0",
     },
     qualification: {
-      
+      type: String
     },
     certificateImg: {
       type: Object,

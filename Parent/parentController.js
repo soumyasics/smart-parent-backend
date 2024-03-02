@@ -1,5 +1,6 @@
 const parents = require("./parentSchema");
 const multer = require("multer");
+const ChildModel = require("../child/childSchema");
 
 const storage = multer.diskStorage({
   destination: function (req, res, cb) {
@@ -14,40 +15,43 @@ const upload = multer({ storage: storage }).single("image");
 //User Registration
 
 const registerParent = async (req, res) => {
-  console.log('req.body',req.body)
-
-  const checkEmail = await parents.findOne({ email: req.body.email });
-  if (checkEmail) {
-    return res.status(400).json({
-      status: 400,
-      message: "Mail Id already in Use",
-    });
-  }
+  console.log("req.body", req.body);
 
   const newParent = await new parents({
     name: req.body.name,
     email: req.body.email,
     contact: req.body.contact,
     password: req.body.password,
-    childDob: req.body.date,
-    childName: req.body.childName
   });
+
+  const childData = await new ChildModel({
+    childName: req.body.childName,
+    childAge: req.body.childAge,
+    childHobbies: req.body.childHobbies,
+    childGender: req.body.childGender,
+    childHeight: req.body.childHeight,
+    childWeight: req.body.childWeight,
+    parentId: newParent._id,
+  });
+
+  await childData.save();
+
   newParent
     .save()
     .then((data) => {
       res.json({
         status: 200,
         msg: "Inserted successfully",
-        data: data,
+        data: { data, childData },
       });
     })
     .catch((err) => {
-      if(err.code==1100){
-       return res.json({
-          status:409,
-          msg:"Mail Id already in Use",
-          Error:err
-      })
+      if (err.code == 1100) {
+        return res.json({
+          status: 409,
+          msg: "Mail Id already in Use",
+          Error: err,
+        });
       }
       res.json({
         status: 500,
@@ -58,7 +62,7 @@ const registerParent = async (req, res) => {
 };
 // Registration -- finished
 
-//Login 
+//Login
 const loginParent = (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -129,10 +133,10 @@ const editParentById = (req, res) => {
       { _id: req.params.id },
       {
         name: req.body.name,
-    email: req.body.email,
-    contact: req.body.contact,
-    password: req.body.password,
-    date: req.body.date
+        email: req.body.email,
+        contact: req.body.contact,
+        password: req.body.password,
+        date: req.body.date,
       }
     )
     .exec()

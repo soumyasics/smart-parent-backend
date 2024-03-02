@@ -1,7 +1,8 @@
 const RpModel = require("./rp/rpSchema.js");
 const ParentModel = require("./Parent/parentSchema.js");
-const multer = require("multer");
 const CouncilarModel = require("./councilar/councilarSchema.js");
+
+const multer = require("multer");
 const storage = multer.diskStorage({
   destination: function (req, res, cb) {
     cb(null, "./upload");
@@ -11,7 +12,10 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage }).single("image");
+const upload = multer({ storage: storage }).single("img");
+
+module.exports = { upload };
+
 
 const isEmailUnique = async (req, res, next) => {
   try {
