@@ -1,24 +1,28 @@
 const tutorialSchema = require('./tutorialSchema');
+const multer = require("multer");
 
 // Soumya
 
+
 const storage = multer.diskStorage({
-    destination: function (req, res, cb) {
-      cb(null, "./upload");
-    },
-    filename: function (req, file, cb) {
-      cb(null, file.originalname);
-    },
-  });
-  
-  const upload = multer({ storage: storage })
+  destination: function (req, file, cb) {
+    cb(null, './upload'); // Ensure that 'uploads' directory exists
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname); // Ensure unique filenames
+  }
+});
+
+const upload = multer({ storage: storage });
 const addTutorial = (req, res) => {
     
-    const newVideoTutorial = new VideoTutorial({
-        thumbnail:req.files[0],
-        video:req.files[1],
+    const newVideoTutorial = new tutorialSchema({
+   
+       
         title:req.body.title,
         description:req.body.description,
+        thumbnail:req.files[0],
+        video:req.files[1],
         rpid:req.body.rpid
     });
 
@@ -81,5 +85,6 @@ const deleteVideoTutorial = (req, res) => {
 module.exports = {
     addTutorial,
     editVideoTutorial,
-    deleteVideoTutorial
+    deleteVideoTutorial,
+    upload
 };

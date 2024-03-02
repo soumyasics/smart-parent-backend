@@ -1,14 +1,12 @@
 const mongoose = require('mongoose');
 
 const tutorialSchema = new mongoose.Schema({
-    thumbnail: {
-        type: Object,
-        required: true
-    },
-    videoURL: {
-        type: Object,
-        required: true
-    },
+  video:{
+    type:Object
+  },
+  thumbnail:{
+    type:Object
+  },
     title: {
         type: String,
         required: true

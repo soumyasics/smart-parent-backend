@@ -7,8 +7,9 @@ const rpController = require("./rp/rpController");
 const councilarController = require("./councilar/councilarController");
 const Tutorials = require("./rp/Tutorials/tutorialController");
 
+
 // common middlewares
-const { upload, isEmailUnique } = require("./middlewares");
+const { isEmailUnique } = require("./middlewares");
 // resource person middlewares
 const { checkEmailAndPassword } = require("./rp/middleware");
 
@@ -55,7 +56,7 @@ router.delete("/deleteCouncilarById/:id", councilarController.deleteCouncilarByI
 
 //tutorials
 
-router.get("/addTutorial", Tutorials.addTutorial);
+router.post("/addTutorial",Tutorials.upload.array("files"), Tutorials.addTutorial);
 router.get("/editVideoTutorial/:id", Tutorials.editVideoTutorial);
 router.patch("/deleteVideoTutorial/:id", Tutorials.deleteVideoTutorial);
 module.exports = router;
