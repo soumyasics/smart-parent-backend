@@ -7,6 +7,8 @@ const rpController = require("./rp/rpController");
 const councilarController = require("./councilar/councilarController");
 const Tutorials = require("./rp/Tutorials/tutorialController");
 const subscribeController = require("./subscribe/subscribeController");
+const taskController = require("./rp/Tasks/taskController");
+
 // common middlewares
 const { isEmailUnique } = require("./middlewares");
 // resource person middlewares
@@ -76,4 +78,11 @@ router.get(
   subscribeController.getAllSubscriptionByRpId
 );
 
+
+
+// tasks
+router.post(
+  "/addQuestions",
+  taskController.addQuestions
+);
 module.exports = router;
