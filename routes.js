@@ -6,7 +6,7 @@ const parentController = require("./Parent/parentController");
 const rpController = require("./rp/rpController");
 const councilarController = require("./councilar/councilarController");
 const Tutorials = require("./rp/Tutorials/tutorialController");
-
+const subscribeController = require("./subscribe/subscribeController");
 // common middlewares
 const { upload, isEmailUnique } = require("./middlewares");
 // resource person middlewares
@@ -53,11 +53,27 @@ router.get("/viewAllCouncilars", councilarController.viewAllCouncilars);
 router.get("/viewCouncilarById/:id", councilarController.viewCouncilarById);
 router.patch("/editCouncilarById/:id", councilarController.editCouncilarById);
 router.patch("/updatePassword/:id", councilarController.updatePassword);
-router.delete("/deleteCouncilarById/:id", councilarController.deleteCouncilarById);
+router.delete(
+  "/deleteCouncilarById/:id",
+  councilarController.deleteCouncilarById
+);
 
 //tutorials
 
 router.get("/addTutorial", Tutorials.addTutorial);
 router.get("/editVideoTutorial/:id", Tutorials.editVideoTutorial);
 router.patch("/deleteVideoTutorial/:id", Tutorials.deleteVideoTutorial);
+
+// subscription
+router.post("/new-subscription", subscribeController.newSubscribe);
+router.get("/get-all-subscription", subscribeController.getAllSubscription);
+router.get(
+  "/get-all-subscriptions-by-parent-id/:id",
+  subscribeController.getAllSubscriptionByParentId
+);
+router.get(
+  "/get-all-subscriptions-by-rp-id/:id",
+  subscribeController.getAllSubscriptionByRpId
+);
+
 module.exports = router;
