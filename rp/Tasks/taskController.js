@@ -134,7 +134,7 @@ const addQuestions=(req,res)=>{
 
     newTask.save()
         .then(task => {
-            res.status(201).json(task);
+            res.status(200).json(task);
         })
         .catch(error => {
             console.error(error);
@@ -142,6 +142,64 @@ const addQuestions=(req,res)=>{
         });
 };
 
+
+const viewTaskQnById = async (req, res) => {
+    try {
+      const id = req.params.id;
+      if (!id) {
+        return res.status(400).json({ message: "Id is required" });
+      }
+  
+      const tasks = await taskSchema.findById(id);
+      if (!tasks) {
+        return res.status(404).json({ message: "Tasks not found" });
+      }
+  
+      return res.status(200).json({ message: "tasks", data: tasks });
+    } catch (error) {
+      return res.status(500).json({ message: "server error fetching tasks", error });
+    }
+  };
+  
+  const viewTaskQnByRPId = async (req, res) => {
+    try {
+      const id = req.params.id;
+      if (!id) {
+        return res.status(400).json({ message: "Id is required" });
+      }
+  
+      const tasks = await taskSchema.find({rpid:id});
+      if (!tasks) {
+        return res.status(404).json({ message: "Tasks not found" });
+      }
+  
+      return res.status(200).json({ message: "tasks", data: tasks });
+    } catch (error) {
+      return res.status(500).json({ message: "server error fetching tasks", error });
+    }
+  };
+// Delete an existing task
+const deleteTaskById = (req, res) => {
+    const  id  = req.params.id;
+
+    taskSchema.findByIdAndDelete(id)
+        .then(deletedVideoTutorial => {
+            if (!deletedVideoTutorial) {
+                return res.json({status:401, message: 'Task not found.' });
+            }
+            res.json({status:200,  message: 'Task  deleted successfully.' });
+        })
+        .catch(error => {
+            console.error(error);
+            res.json({status:500,  message: 'Failed to delete Task.' });
+        });
+};
+
+
+
 module.exports = {
-    addQuestions
+    addQuestions,
+    deleteTaskById,
+    viewTaskQnById,
+    viewTaskQnByRPId
 };

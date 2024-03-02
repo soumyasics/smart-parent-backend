@@ -81,8 +81,8 @@ router.get(
 
 
 // tasks
-router.post(
-  "/addQuestions",
-  taskController.addQuestions
-);
+router.post("/addQuestions",taskController.addQuestions);
+router.post("/deleteTaskById/:id",taskController.deleteTaskById);
+router.post("/viewTaskQnById/:id",taskController.viewTaskQnById);
+router.post("/viewTaskQnByRPId/:id",taskController.viewTaskQnByRPId);
 module.exports = router;
