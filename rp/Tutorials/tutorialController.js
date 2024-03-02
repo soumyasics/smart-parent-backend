@@ -1,9 +1,5 @@
 const tutorialSchema = require('./tutorialSchema');
-<<<<<<< HEAD
 const multer = require("multer");
-=======
-const multer = require('multer');
->>>>>>> 809cd4886c3494e1f42a93ef75a53da05e1ecabd
 
 // Soumya
 

@@ -6,12 +6,7 @@ const parentController = require("./Parent/parentController");
 const rpController = require("./rp/rpController");
 const councilarController = require("./councilar/councilarController");
 const Tutorials = require("./rp/Tutorials/tutorialController");
-<<<<<<< HEAD
-
-
-=======
 const subscribeController = require("./subscribe/subscribeController");
->>>>>>> 809cd4886c3494e1f42a93ef75a53da05e1ecabd
 // common middlewares
 const { isEmailUnique } = require("./middlewares");
 // resource person middlewares
