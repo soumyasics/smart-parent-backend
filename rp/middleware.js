@@ -1,5 +1,7 @@
 const checkEmailAndPassword = async (req, res, next) => {
   try {
+    console.log("req",req.body);
+    console.log("req",req.files);
     const email = req.body?.email || null;
     const password = req.body?.password || null;
     if (!email || !password) {

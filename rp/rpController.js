@@ -2,12 +2,29 @@ const RpModel = require("./rpSchema.js");
 const bcrypt = require("bcrypt");
 const multer = require("multer");
 
+//edited by soumya
+
+const storage = multer.diskStorage({
+  destination: function (req, res, cb) {
+    cb(null, "./upload");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+
+const multipleUpload = multer({ storage: storage }).array("files",2);
+
 const registerRp = async (req, res) => {
   try {
     const { name, email, password, contact, age, experienceYear } = req.body;
-
+    if (req.files && req.files.length > 0) {
+      console.log("ok");
+  } else {
+    console.log(" not ok");
+  }
     const hashedPassword = await bcrypt.hash(password, 10);
-
+console.log(req.files);
     // Construct RpModel object
     const rp = new RpModel({
       name,
@@ -15,6 +32,8 @@ const registerRp = async (req, res) => {
       experienceYear,
       email,
       age,
+      profilePicture:req.files[0],
+      certificateImg:req.files[1],
       password: hashedPassword,
     });
     console.log("rp", rp);
@@ -25,6 +44,7 @@ const registerRp = async (req, res) => {
       resourcePerson: rp,
     });
   } catch (error) {
+    console.log(error);
     return res
       .status(500)
       .json({ message: "Server Error on registration rp.", error });
@@ -136,4 +156,5 @@ module.exports = {
   viewRpById,
   rejectRegistration,
   acceptRegistration,
+  multipleUpload
 };
