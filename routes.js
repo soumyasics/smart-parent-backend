@@ -15,7 +15,7 @@ const { isEmailUnique } = require("./middlewares");
 const { checkEmailAndPassword } = require("./rp/middleware");
 
 //Parent routes
-router.post("/registerParent",parentController.registerParent);
+router.post("/registerParent", parentController.registerParent);
 router.post("/loginParent", parentController.loginParent);
 router.post("/viewParentById/:id", parentController.viewParentById);
 router.post("/viewParents", parentController.viewParents);
@@ -31,6 +31,9 @@ router.post(
   rpController.multipleUpload,
   rpController.registerRp
 );
+
+router.post("/addTutorial", rpController.multipleUpload, Tutorials.addTutorial);
+
 router.post("/loginRp", checkEmailAndPassword, rpController.loginRp);
 
 router.get("/view-all-rp", rpController.viewAllRps);
@@ -63,7 +66,6 @@ router.delete(
 
 //tutorials
 
-router.post("/addTutorial",Tutorials.upload, Tutorials.addTutorial);
 router.get("/editVideoTutorial/:id", Tutorials.editVideoTutorial);
 router.patch("/deleteVideoTutorial/:id", Tutorials.deleteVideoTutorial);
 
@@ -79,11 +81,9 @@ router.get(
   subscribeController.getAllSubscriptionByRpId
 );
 
-
-
 // tasks
-router.post("/addQuestions",taskController.addQuestions);
-router.post("/deleteTaskById/:id",taskController.deleteTaskById);
-router.post("/viewTaskQnById/:id",taskController.viewTaskQnById);
-router.post("/viewTaskQnByRPId/:id",taskController.viewTaskQnByRPId);
+router.post("/addQuestions", taskController.addQuestions);
+router.post("/deleteTaskById/:id", taskController.deleteTaskById);
+router.post("/viewTaskQnById/:id", taskController.viewTaskQnById);
+router.post("/viewTaskQnByRPId/:id", taskController.viewTaskQnByRPId);
 module.exports = router;
