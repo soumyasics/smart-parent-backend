@@ -63,7 +63,7 @@ router.delete(
 
 //tutorials
 
-router.post("/addTutorial",Tutorials.upload.array("files"), Tutorials.addTutorial);
+router.post("/addTutorial",Tutorials.upload, Tutorials.addTutorial);
 router.get("/editVideoTutorial/:id", Tutorials.editVideoTutorial);
 router.patch("/deleteVideoTutorial/:id", Tutorials.deleteVideoTutorial);
 

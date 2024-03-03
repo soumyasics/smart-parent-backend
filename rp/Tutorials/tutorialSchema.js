@@ -19,7 +19,23 @@ const tutorialSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'rp',
         required: true
-    }
+    },
+    title: {
+      type: String,
+      required: true
+  },
+        description: {
+          type: String,
+          required: true
+      },
+      target: {
+        type: String,
+        required: true
+    },
+      duration: {
+        type: String,
+        required: true
+    },
 });
 
 const VideoTutorial = mongoose.model('tutorials', tutorialSchema);
