@@ -13,18 +13,30 @@ const storage = multer.diskStorage({
   },
 });
 
-const multipleUpload = multer({ storage: storage }).array("files",2);
+const multipleUpload = multer({ storage: storage }).array("files", 2);
 
 const registerRp = async (req, res) => {
   try {
     const { name, email, password, contact, age, experienceYear } = req.body;
+
+    const existingRp = await RpModel.findOne({ email });
+    if (existingRp) {
+      return res
+        .status(400)
+        .json({ message: "Resource Person with this email already exists" });
+    }
+
+    console.log("reb", req.body);
     if (req.files && req.files.length > 0) {
       console.log("ok");
-  } else {
-    console.log(" not ok");
-  }
+    } else {
+      console.log(" not ok");
+    }
     const hashedPassword = await bcrypt.hash(password, 10);
-console.log(req.files);
+    console.log(req.files);
+
+    const proImg = req?.files[0] || null;
+    const certImg = req?.files[1] || null;
     // Construct RpModel object
     const rp = new RpModel({
       name,
@@ -32,8 +44,8 @@ console.log(req.files);
       experienceYear,
       email,
       age,
-      profilePicture:req.files[0],
-      certificateImg:req.files[1],
+      profilePicture: proImg,
+      certificateImg: certImg,
       password: hashedPassword,
     });
     console.log("rp", rp);
@@ -156,5 +168,5 @@ module.exports = {
   viewRpById,
   rejectRegistration,
   acceptRegistration,
-  multipleUpload
+  multipleUpload,
 };

@@ -26,15 +26,13 @@ router.post("/forgotPwdParent", parentController.forgotPwd);
 // resource person routes
 router.post(
   "/registerRp",
-  // checkEmailAndPassword,
-  // isEmailUnique,
   rpController.multipleUpload,
   rpController.registerRp
 );
 
-router.post("/addTutorial", rpController.multipleUpload, Tutorials.addTutorial);
 
-router.post("/loginRp", checkEmailAndPassword, rpController.loginRp);
+
+router.post("/loginRp", rpController.loginRp);
 
 router.get("/view-all-rp", rpController.viewAllRps);
 router.get("/view-rp-by-id/:id", rpController.viewRpById);
@@ -65,7 +63,9 @@ router.delete(
 );
 
 //tutorials
-
+router.post("/addTutorial", rpController.multipleUpload, Tutorials.addTutorial);
+router.get("/viewAllTutorials", Tutorials.getAllTutorials);
+router.get("/viewTutorialById/:id", Tutorials.getTutorialsByRpId);
 router.get("/editVideoTutorial/:id", Tutorials.editVideoTutorial);
 router.patch("/deleteVideoTutorial/:id", Tutorials.deleteVideoTutorial);
 

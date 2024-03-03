@@ -41,6 +41,39 @@ const addTutorial = async (req, res) => {
   }
 };
 
+const getAllTutorials = async (req, res) => {
+  try {
+    const videoTutorials = await tutorialSchema.find().populate("rpid").exec();
+    return res.status(200).json({
+      data: videoTutorials,
+      message: "All Video Tutorials",
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to add video tutorial.", error });
+  }
+};
+
+const getTutorialsByRpId = async () => {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({ message: "Id is required" });
+    }
+
+    const videoTutorials = await tutorialSchema
+      .find({
+        rpid: id,
+      })
+      .populate("rpid")
+      .exec();
+    return res.status(200).json({
+      data: videoTutorials,
+      message: "All Video Tutorials",
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to add video tutorial.", error });
+  }
+};
 // Edit an existing video tutorial
 const editVideoTutorial = (req, res) => {
   tutorialSchema
@@ -95,4 +128,6 @@ module.exports = {
   editVideoTutorial,
   deleteVideoTutorial,
   upload,
+  getAllTutorials,
+  getTutorialsByRpId,
 };
