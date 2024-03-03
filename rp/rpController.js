@@ -80,6 +80,16 @@ const loginRp = async (req, res) => {
         .status(404)
         .json({ message: "Please check your Email id and password" });
     }
+    if (rp.isAdminApproved == "rejected") {
+      return res
+        .status(404)
+        .json({ message: "Your account has been rejected" });
+    }
+    if (rp.isAdminApproved == "pending") {
+      return res
+        .status(404)
+        .json({ message: "Your account is not approved yet" });
+    }
     return res.status(200).json({ message: "Login successfull", rp });
   } catch (error) {
     return res.status(500).json({ message: "server error on login rp", error });

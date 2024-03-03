@@ -52,7 +52,29 @@ const getAllTutorials = async (req, res) => {
     res.status(500).json({ message: "Failed to add video tutorial.", error });
   }
 };
-
+const getTutorialById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({ message: "Id is required" });
+    }
+    const videoTutorial = await tutorialSchema
+      .findById(id)
+      .populate("rpid")
+      .exec();
+    if (!videoTutorial) {
+      return res.status(404).json({ message: "Video tutorial not found" });
+    }
+    return res.status(200).json({
+      data: videoTutorial,
+      message: "Video Tutorial",
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Failed to get  video  tutorial by id.", error });
+  }
+};
 const getTutorialsByRpId = async () => {
   try {
     const id = req.params.id;
@@ -128,6 +150,7 @@ module.exports = {
   editVideoTutorial,
   deleteVideoTutorial,
   upload,
+  getTutorialById,
   getAllTutorials,
   getTutorialsByRpId,
 };
