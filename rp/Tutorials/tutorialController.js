@@ -13,7 +13,8 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage }).array("files",2);
+
 const addTutorial = (req, res) => {
     
     const newVideoTutorial = new tutorialSchema({
