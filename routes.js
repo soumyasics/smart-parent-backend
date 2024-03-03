@@ -15,7 +15,7 @@ const { isEmailUnique } = require("./middlewares");
 const { checkEmailAndPassword } = require("./rp/middleware");
 
 //Parent routes
-router.post("/registerParent", parentController.registerParent);
+router.post("/registerParent",parentController.registerParent);
 router.post("/loginParent", parentController.loginParent);
 router.post("/viewParentById/:id", parentController.viewParentById);
 router.post("/viewParents", parentController.viewParents);
@@ -26,8 +26,9 @@ router.post("/forgotPwdParent", parentController.forgotPwd);
 // resource person routes
 router.post(
   "/registerRp",
-  checkEmailAndPassword,
-  isEmailUnique,
+  // checkEmailAndPassword,
+  // isEmailUnique,
+  rpController.multipleUpload,
   rpController.registerRp
 );
 router.post("/loginRp", checkEmailAndPassword, rpController.loginRp);
