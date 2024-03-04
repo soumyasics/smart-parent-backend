@@ -39,6 +39,11 @@ router.get("/view-rp-by-id/:id", rpController.viewRpById);
 
 router.post("/acceptRpRegistration/:id", rpController.acceptRegistration);
 router.post("/rejectRpRegistration/:id", rpController.rejectRegistration);
+//soumya
+router.post("/addRating/:id", rpController.addRating);
+
+
+
 
 // councilar routs
 router.post(
