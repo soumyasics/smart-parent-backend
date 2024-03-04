@@ -40,6 +40,7 @@ router.get("/view-rp-by-id/:id", rpController.viewRpById);
 router.post("/acceptRpRegistration/:id", rpController.acceptRegistration);
 router.post("/rejectRpRegistration/:id", rpController.rejectRegistration);
 //soumya for rating of rp
+//now
 router.post("/addRating/:id", rpController.addRating);
 
 
