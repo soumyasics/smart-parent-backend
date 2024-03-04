@@ -14,28 +14,88 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).array("files", 2);
 
-const addTutorial = (req, res) => {
-    
-    const newVideoTutorial = new tutorialSchema({
-   
-       
-        title:req.body.title,
-        description:req.body.description,
-        thumbnail:req.files[0],
-        video:req.files[1],
-        rpid:req.body.rpid
+const addTutorial = async (req, res) => {
+  try {
+    if (!req.body.title) {
+      return res.status(400).json({ message: "Title is required" });
+    }
+    const { title, description, rpid, duration, target } = req.body;
+    const newVideoTutorial = await new tutorialSchema({
+      title,
+      description,
+      duration,
+      target,
+      thumbnail: req.files[0],
+      video: req.files[1],
+      rpid,
     });
 
-    newVideoTutorial.save()
-        .then(videoTutorial => {
-            res.status(201).json(videoTutorial);
-        })
-        .catch(error => {
-            console.error(error);
-            res.status(500).json({ message: 'Failed to add video tutorial.' });
-        });
+    await newVideoTutorial.save();
+    res.status(200).json({
+      message: "Video tutorial added successfully",
+      videoTutorial: newVideoTutorial,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to add video tutorial.", error });
+  }
 };
 
+const getAllTutorials = async (req, res) => {
+  try {
+    const videoTutorials = await tutorialSchema.find().populate("rpid").exec();
+    return res.status(200).json({
+      data: videoTutorials,
+      message: "All Video Tutorials",
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to add video tutorial.", error });
+  }
+};
+const getTutorialById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({ message: "Id is required" });
+    }
+    const videoTutorial = await tutorialSchema
+      .findById(id)
+      .populate("rpid")
+      .exec();
+    if (!videoTutorial) {
+      return res.status(404).json({ message: "Video tutorial not found" });
+    }
+    return res.status(200).json({
+      data: videoTutorial,
+      message: "Video Tutorial",
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Failed to get  video  tutorial by id.", error });
+  }
+};
+const getTutorialsByRpId = async () => {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({ message: "Id is required" });
+    }
+
+    const videoTutorials = await tutorialSchema
+      .find({
+        rpid: id,
+      })
+      .populate("rpid")
+      .exec();
+    return res.status(200).json({
+      data: videoTutorials,
+      message: "All Video Tutorials",
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to add video tutorial.", error });
+  }
+};
 // Edit an existing video tutorial
 const editVideoTutorial = (req, res) => {
   tutorialSchema
