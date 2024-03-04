@@ -42,10 +42,15 @@ const rpSchema = mongoose.Schema(
       type: Object,
       default: null,
     },
+    rating:{
+      type:Number,
+      default:0
+    }
   },
   {
     timestamps: true,
   }
+  
 );
 
 const RpModel = mongoose.model("rp", rpSchema);
