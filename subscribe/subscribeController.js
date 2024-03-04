@@ -23,16 +23,12 @@ const newSubscribe = async (req, res) => {
     if (!parentId) {
       return res.status(400).json({ message: "Parent Id is required" });
     }
-    console.log("par", parentId);
 
     if (!resourcePersonId) {
       return res
         .status(400)
         .json({ message: "Resource Person Id is required" });
     }
-
-    console.log("par2", parentId);
-    // console.log("parent ojb", parentIdObj);
     const allSubscriptions = await getAllSubscriptions();
 
     const isAlreadySubscribed = allSubscriptions.find((subscription) => {
@@ -95,7 +91,8 @@ const getAllSubscriptionByParentId = async (req, res) => {
 
     const getAllSubscription = await SubscribeModel.find({ parentId: id })
       .populate("parentId")
-      .populate("resourcePersonId");
+      .populate("resourcePersonId")
+      .exec();
     return res
       .status(200)
       .json({ message: "All Subscription", data: getAllSubscription });
@@ -117,10 +114,34 @@ const getAllSubscriptionByRpId = async (req, res) => {
       resourcePersonId: id,
     })
       .populate("parentId")
-      .populate("resourcePersonId");
+      .populate("resourcePersonId")
+      .exec();
     return res
       .status(200)
       .json({ message: "All Subscription", data: getAllSubscription });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "server error on get all subscribe", error });
+  }
+};
+
+const getSubscriptionById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({ message: "Id is required" });
+    }
+    const getSubscription = await SubscribeModel.findById(id)
+      .populate("parentId")
+      .populate("resourcePersonId")
+      .exec();
+    if (!getSubscription) {
+      return res.status(404).json({ message: "Subscription not found" });
+    }
+    return res
+      .status(200)
+      .json({ message: "Subscription", data: getSubscription });
   } catch (error) {
     return res
       .status(500)
@@ -133,4 +154,5 @@ module.exports = {
   getAllSubscription,
   getAllSubscriptionByParentId,
   getAllSubscriptionByRpId,
+  getSubscriptionById,
 };
