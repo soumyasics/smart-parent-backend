@@ -15,7 +15,7 @@ const { isEmailUnique } = require("./middlewares");
 const { checkEmailAndPassword } = require("./rp/middleware");
 
 //Parent routes
-router.post("/registerParent",parentController.registerParent);
+router.post("/registerParent", parentController.registerParent);
 router.post("/loginParent", parentController.loginParent);
 router.post("/viewParentById/:id", parentController.viewParentById);
 router.post("/viewParents", parentController.viewParents);
@@ -26,12 +26,13 @@ router.post("/forgotPwdParent", parentController.forgotPwd);
 // resource person routes
 router.post(
   "/registerRp",
-  // checkEmailAndPassword,
-  // isEmailUnique,
   rpController.multipleUpload,
   rpController.registerRp
 );
-router.post("/loginRp", checkEmailAndPassword, rpController.loginRp);
+
+
+
+router.post("/loginRp", rpController.loginRp);
 
 router.get("/view-all-rp", rpController.viewAllRps);
 router.get("/view-rp-by-id/:id", rpController.viewRpById);
@@ -62,10 +63,12 @@ router.delete(
 );
 
 //tutorials
-
-router.post("/addTutorial",Tutorials.upload, Tutorials.addTutorial);
+router.post("/addTutorial", rpController.multipleUpload, Tutorials.addTutorial);
+router.get("/viewAllTutorials", Tutorials.getAllTutorials);
+router.get("/viewTutorialById/:id", Tutorials.getTutorialsByRpId);
 router.get("/editVideoTutorial/:id", Tutorials.editVideoTutorial);
 router.patch("/deleteVideoTutorial/:id", Tutorials.deleteVideoTutorial);
+router.get("/getTutorialById/:id", Tutorials.getTutorialById);
 
 // subscription
 router.post("/new-subscription", subscribeController.newSubscribe);
@@ -79,11 +82,9 @@ router.get(
   subscribeController.getAllSubscriptionByRpId
 );
 
-
-
 // tasks
-router.post("/addQuestions",taskController.addQuestions);
-router.post("/deleteTaskById/:id",taskController.deleteTaskById);
-router.post("/viewTaskQnById/:id",taskController.viewTaskQnById);
-router.post("/viewTaskQnByRPId/:id",taskController.viewTaskQnByRPId);
+router.post("/addQuestions", taskController.addQuestions);
+router.post("/deleteTaskById/:id", taskController.deleteTaskById);
+router.post("/viewTaskQnById/:id", taskController.viewTaskQnById);
+router.post("/viewTaskQnByRPId/:id", taskController.viewTaskQnByRPId);
 module.exports = router;

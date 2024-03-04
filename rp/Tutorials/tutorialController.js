@@ -1,30 +1,21 @@
-const tutorialSchema = require('./tutorialSchema');
+const tutorialSchema = require("./tutorialSchema");
 const multer = require("multer");
 
 // Soumya
 
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './upload'); // Ensure that 'uploads' directory exists
+    cb(null, "./upload"); // Ensure that 'uploads' directory exists
   },
   filename: function (req, file, cb) {
-    cb(null,  file.originalname); // Ensure unique filenames
-  }
+    cb(null, file.originalname); // Ensure unique filenames
+  },
 });
 
-const upload = multer({ storage: storage }).array("files",2);
+const upload = multer({ storage: storage }).array("files", 2);
 
-const addTutorial =async (req, res) => {
-    let freedemo=false
-
-  await  tutorialSchema.find({rpid:req.body.rpid}).exec().then(data=>{
-    freedemo=true
-  })
-  .catch(error => {
-    console.error(error);
-  })
-
+const addTutorial = (req, res) => {
+    
     const newVideoTutorial = new tutorialSchema({
    
        
@@ -32,11 +23,10 @@ const addTutorial =async (req, res) => {
         description:req.body.description,
         thumbnail:req.files[0],
         video:req.files[1],
-        rpid:req.body.rpid,
-        freedemo:freedemo
+        rpid:req.body.rpid
     });
 
-    await newVideoTutorial.save()
+    newVideoTutorial.save()
         .then(videoTutorial => {
             res.status(201).json(videoTutorial);
         })
@@ -48,15 +38,15 @@ const addTutorial =async (req, res) => {
 
 // Edit an existing video tutorial
 const editVideoTutorial = (req, res) => {
-   
-
-    tutorialSchema.findByIdAndUpdate({_id:req.params.id}, {
-        thumbnail:req.files[0],
-        video:req.files[1],
-        title:req.body.title,
-        description:req.body.description
-
-    }
+  tutorialSchema
+    .findByIdAndUpdate(
+      { _id: req.params.id },
+      {
+        thumbnail: req.files[0],
+        video: req.files[1],
+        title: req.body.title,
+        description: req.body.description,
+      }
     )
     .exec()
     .then((data) => {
@@ -74,27 +64,33 @@ const editVideoTutorial = (req, res) => {
     });
 };
 
-
 // Delete an existing video tutorial
 const deleteVideoTutorial = (req, res) => {
-    const { id } = req.params;
+  const { id } = req.params;
 
-    tutorialSchema.findByIdAndDelete(id)
-        .then(deletedVideoTutorial => {
-            if (!deletedVideoTutorial) {
-                return res.json({status:401, message: 'Video tutorial not found.' });
-            }
-            res.json({status:200,  message: 'Video tutorial deleted successfully.' });
-        })
-        .catch(error => {
-            console.error(error);
-            res.json({status:500,  message: 'Failed to delete video tutorial.' });
-        });
+  tutorialSchema
+    .findByIdAndDelete(id)
+    .then((deletedVideoTutorial) => {
+      if (!deletedVideoTutorial) {
+        return res.json({ status: 401, message: "Video tutorial not found." });
+      }
+      res.json({
+        status: 200,
+        message: "Video tutorial deleted successfully.",
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.json({ status: 500, message: "Failed to delete video tutorial." });
+    });
 };
 
 module.exports = {
-    addTutorial,
-    editVideoTutorial,
-    deleteVideoTutorial,
-    upload
+  addTutorial,
+  editVideoTutorial,
+  deleteVideoTutorial,
+  upload,
+  getTutorialById,
+  getAllTutorials,
+  getTutorialsByRpId,
 };
