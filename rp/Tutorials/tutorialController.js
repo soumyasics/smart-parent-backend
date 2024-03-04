@@ -16,9 +16,7 @@ const upload = multer({ storage: storage }).array("files", 2);
 
 const addTutorial = async (req, res) => {
   try {
-    if (!req.body.title) {
-      return res.status(400).json({ message: "Title is required" });
-    }
+  
     const { title, description, rpid, duration, target } = req.body;
     const newVideoTutorial = await new tutorialSchema({
       title,
