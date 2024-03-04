@@ -30,6 +30,10 @@ const tutorialSchema = new mongoose.Schema({
   duration: {
     type: String
   },
+  freedemo:{
+    type:Boolean,
+    default:false
+  }
 });
 
 const VideoTutorial = mongoose.model("tutorials", tutorialSchema);
