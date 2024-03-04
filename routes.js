@@ -8,6 +8,7 @@ const councilarController = require("./councilar/councilarController");
 const Tutorials = require("./rp/Tutorials/tutorialController");
 const subscribeController = require("./subscribe/subscribeController");
 const taskController = require("./rp/Tasks/taskController");
+const blogs=require('./rp/Blogs/blogController')
 
 // common middlewares
 const { isEmailUnique } = require("./middlewares");
@@ -93,4 +94,16 @@ router.post("/addQuestions", taskController.addQuestions);
 router.post("/deleteTaskById/:id", taskController.deleteTaskById);
 router.post("/viewTaskQnById/:id", taskController.viewTaskQnById);
 router.post("/viewTaskQnByRPId/:id", taskController.viewTaskQnByRPId);
+
+
+//blogs
+router.post("/addBlog/:id",blogs.upload.array('img'),blogs.addBlog)
+router.post("/viewAllBlogs",blogs.viewAllBlogs)
+router.post("/viewBlogsById/:id",blogs.viewBlogsById)
+router.post("/viewMyBlogsByCid/:id",blogs.viewMyBlogsByRPid)
+router.post("/addReview/:id",blogs.addReview)
+router.post("/deleteBlogsById/:id",blogs.deleteBlogsById)
+
+
+
 module.exports = router;
