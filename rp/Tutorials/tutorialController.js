@@ -75,7 +75,7 @@ const getTutorialById = async (req, res) => {
       .json({ message: "Failed to get  video  tutorial by id.", error });
   }
 };
-const getTutorialsByRpId = async () => {
+const getTutorialsByRpId = async (req, res) => {
   try {
     const id = req.params.id;
     if (!id) {

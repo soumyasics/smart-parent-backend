@@ -65,7 +65,7 @@ router.delete(
 //tutorials
 router.post("/addTutorial", rpController.multipleUpload, Tutorials.addTutorial);
 router.get("/viewAllTutorials", Tutorials.getAllTutorials);
-router.get("/viewTutorialById/:id", Tutorials.getTutorialsByRpId);
+router.get("/viewTutorialByRpId/:id", Tutorials.getTutorialsByRpId);
 router.get("/editVideoTutorial/:id", Tutorials.editVideoTutorial);
 router.patch("/deleteVideoTutorial/:id", Tutorials.deleteVideoTutorial);
 router.get("/getTutorialById/:id", Tutorials.getTutorialById);
