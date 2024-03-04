@@ -15,8 +15,16 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).array("files",2);
 
-const addTutorial = (req, res) => {
-    
+const addTutorial =async (req, res) => {
+    let freedemo=false
+
+  await  tutorialSchema.find({rpid:req.body.rpid}).exec().then(data=>{
+    freedemo=true
+  })
+  .catch(error => {
+    console.error(error);
+  })
+
     const newVideoTutorial = new tutorialSchema({
    
        
@@ -24,10 +32,11 @@ const addTutorial = (req, res) => {
         description:req.body.description,
         thumbnail:req.files[0],
         video:req.files[1],
-        rpid:req.body.rpid
+        rpid:req.body.rpid,
+        freedemo:freedemo
     });
 
-    newVideoTutorial.save()
+    await newVideoTutorial.save()
         .then(videoTutorial => {
             res.status(201).json(videoTutorial);
         })
