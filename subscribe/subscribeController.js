@@ -1,6 +1,14 @@
 const SubscribeModel = require("./subscribeSchema");
-
-
+const mongoose = require("mongoose");
+const getAllSubscriptions = async () => {
+  try {
+    const getAllSubscription = await SubscribeModel.find();
+    return getAllSubscription;
+  } catch (error) {
+    console.log("error on allsubscriptions", error);
+    return [];
+  }
+};
 
 const newSubscribe = async (req, res) => {
   try {
@@ -15,6 +23,7 @@ const newSubscribe = async (req, res) => {
     if (!parentId) {
       return res.status(400).json({ message: "Parent Id is required" });
     }
+    console.log("par", parentId);
 
     if (!resourcePersonId) {
       return res
@@ -22,6 +31,25 @@ const newSubscribe = async (req, res) => {
         .json({ message: "Resource Person Id is required" });
     }
 
+    console.log("par2", parentId);
+    // console.log("parent ojb", parentIdObj);
+    const allSubscriptions = await getAllSubscriptions();
+
+    const isAlreadySubscribed = allSubscriptions.find((subscription) => {
+      let convertParentId = subscription?.parentId?.toString() || "";
+      let convertResourcePersonId =
+        subscription?.resourcePersonId?.toString() || "";
+
+      return (
+        convertParentId === parentId &&
+        convertResourcePersonId === resourcePersonId
+      );
+    });
+    if (isAlreadySubscribed) {
+      return res
+        .status(400)
+        .json({ message: "You already subscribed this Resource Person." });
+    }
 
     const subscribe = await new SubscribeModel({
       parentId,
@@ -42,8 +70,6 @@ const newSubscribe = async (req, res) => {
       .json({ message: "server error on subscribe", error });
   }
 };
-
-
 
 const getAllSubscription = async (req, res) => {
   try {

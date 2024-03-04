@@ -48,7 +48,6 @@ const registerRp = async (req, res) => {
       certificateImg: certImg,
       password: hashedPassword,
     });
-    console.log("rp", rp);
     await rp.save();
 
     return res.status(200).json({
