@@ -1,3 +1,4 @@
+const ansewrmodel = require("./taskAnswers");
 const TaskModel = require("./taskSchema");
 
 const addQuestions = (req, res) => {
@@ -156,9 +157,148 @@ const deleteTaskById = (req, res) => {
     });
 };
 
+const checkanswer1 = async (ans, answers) => {
+  console.log(ans, answers);
+  switch (ans) {
+    case answers.op1_1.op: return score = answers.op1_1.score
+    case answers.op1_2.op: return score = answers.op1_2.score
+    case answers.op1_3.op: return score = answers.op1_3.score
+    case answers.op1_4.op: return score = answers.op1_4.score
+  }
+  return 0
+}
+const checkanswer2 = async (ans, answers) => {
+  console.log(ans, answers);
+  switch (ans) {
+    case answers.op2_1.op: return score = answers.op2_1.score
+    case answers.op2_2.op: return score = answers.op2_2.score
+    case answers.op2_3.op: return score = answers.op2_3.score
+    case answers.op2_4.op: return score = answers.op2_4.score
+  }
+  return 0
+
+}
+const checkanswer3 = async (ans, answers) => {
+  console.log(ans, answers);
+  switch (ans) {
+    case answers.op3_1.op: return score = answers.op3_1.score
+    case answers.op3_2.op: return score = answers.op3_2.score
+    case answers.op3_3.op: return score = answers.op3_3.score
+    case answers.op3_4.op: return score = answers.op3_4.score
+  }
+  return 0
+}
+const checkanswer4 = async (ans, answers) => {
+  console.log(ans, answers);
+  switch (ans) {
+    case answers.op4_1.op: return score = answers.op4_1.score
+    case answers.op4_2.op: return score = answers.op4_2.score
+    case answers.op4_3.op: return score = answers.op4_3.score
+    case answers.op4_4.op: return score = answers.op4_4.score
+  }
+  return 0
+}
+
+const checkanswer5 = async (ans, answers) => {
+  console.log(ans, answers);
+  switch (ans) {
+    case answers.op5_1.op: return score = answers.op5_1.score
+    case answers.op5_2.op: return score = answers.op5_2.score
+    case answers.op5_3.op: return score = answers.op5_3.score
+    case answers.op5_4.op: return score = answers.op5_4.score
+  }  return 0
+
+}
+
+const getIds = async (taskid) => {
+  let rpid = null
+
+
+}
+
+const addAnswers = async (req, res) => {
+  let rpid = null, comments = ""
+  let score1 = 0, score2 = 0, score3 = 0, score4 = 0, score5 = 0, ans = null, total = 0
+  await TaskModel.findById({ _id: req.params.id }).exec().then(data => {
+    ans = data
+  })
+    .catch((error) => {
+      console.error(error);
+    })
+
+  let ans1 = req.body.ans1
+  let ans2 = req.body.ans2
+  let ans3 = req.body.ans3
+  let ans4 = req.body.ans4
+  let ans5 = req.body.ans5
+  score1 = await checkanswer1(ans1, ans)
+  score2 = await checkanswer2(ans2, ans)
+  score3 = await checkanswer3(ans3, ans)
+
+  score4 = await checkanswer4(ans4, ans)
+  score5 = await checkanswer5(ans5, ans)
+  total = score1 + score2 + score3 + score4 + score5
+  console.log("score", total);
+  await TaskModel.findById({ _id: req.params.id }).exec().then(data => {
+
+    rpid = data.rpid
+
+  }).catch((error) => {
+    console.error(error);
+
+  })
+
+  if (total < 8) {
+    comments = "you better get a councilor advice"
+    suggestion = 0
+  }
+  else if (total > 8 && total < 15) {
+    comments = "Your kid is Okay !!! But need to get more active"
+    suggestion = 1
+  }
+  else {
+    comments = "Your kid is Perfect !!!"
+    suggestion = 2
+  }
+  const answerss = new ansewrmodel({
+    parentid: req.body.parentid,
+    taskid: req.params.id,
+    rpid: rpid,
+    ans1: req.body.ans1,
+    ans2: req.body.ans2,
+    ans3: req.body.ans3,
+    ans4: req.body.ans4,
+    ans5: req.body.ans5,
+    score1: score1,
+    score2: score2,
+    score3: score3,
+    score4: score4,
+    score5: score5,
+    total: total,
+    comments: comments,
+    suggestion: suggestion
+  })
+  await answerss.save().then(data => {
+
+    return res.status(200).json({
+      message: "Answers added successfully",
+      data
+    });
+  })
+    .catch(error => {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ message: "Server Error.", error });
+
+
+    })
+}
+
 module.exports = {
   addQuestions,
   deleteTaskById,
   viewTaskQnById,
-  viewTaskQnByRPId,viewAllTasks
+  viewTaskQnByRPId, viewAllTasks,
+  addAnswers
 };
