@@ -93,6 +93,7 @@ router.post("/addQuestions", taskController.addQuestions);
 router.post("/deleteTaskById/:id", taskController.deleteTaskById);
 router.post("/viewTaskQnById/:id", taskController.viewTaskQnById);
 router.post("/viewTaskQnByRPId/:id", taskController.viewTaskQnByRPId);
+
 router.get("/viewAllTasks", taskController.viewAllTasks);
 
 //blogs

@@ -7,6 +7,26 @@ const TaskSchema = new Schema({
     ref: "rp",
     required: true,
   },
+  title: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  target: {
+    type: String,
+    required: true,
+  },
+  duration: {
+    type: String,
+    required: true,
+  },
+  points: {
+    type: String,
+    required: true,
+  }, 
   qn1: {
     type: String,
     required: true,

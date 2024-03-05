@@ -1,13 +1,13 @@
 const TaskModel = require("./taskSchema");
 
 const addQuestions = (req, res) => {
-  console.log("workd");
   const {
     rpid,
     title,
     description,
     target,
     duration,
+    points,
     qn1,
     op1_1,
     op1_2,
@@ -46,6 +46,7 @@ const addQuestions = (req, res) => {
     description,
     target,
     duration,
+    points,
     qn1,
     op1_1,
     op1_2,
@@ -92,6 +93,7 @@ const addQuestions = (req, res) => {
 const viewAllTasks = async (req, res) => {
   try {
     const tasks = await TaskModel.find();
+;
     return res.status(200).json({ message: "tasks", data: tasks });
   } catch (error) {
     return res
@@ -160,5 +162,6 @@ module.exports = {
   addQuestions,
   deleteTaskById,
   viewTaskQnById,
-  viewTaskQnByRPId,viewAllTasks
+  viewTaskQnByRPId,
+  viewAllTasks,
 };
