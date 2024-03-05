@@ -23,7 +23,7 @@ router.post("/viewParents", parentController.viewParents);
 router.post("/editParentById/:id", parentController.editParentById);
 router.post("/deleteParentById/:id", parentController.deleteParentById);
 router.post("/forgotPwdParent", parentController.forgotPwd);
-
+router.post("/parentcollection", parentController.parentCollection);
 // resource person routes
 router.post(
   "/registerRp",
@@ -41,6 +41,8 @@ router.post("/rejectRpRegistration/:id", rpController.rejectRegistration);
 //soumya for rating of rp
 //now
 router.post("/addRating/:id", rpController.addRating);
+
+router.post("/rpcollection", rpController.RpCollection);
 
 // councilar routs
 router.post(
@@ -63,6 +65,9 @@ router.delete(
   "/deleteCouncilarById/:id",
   councilarController.deleteCouncilarById
 );
+
+router.post("/counsellorcollection", councilarController.counsellorCollection);
+
 
 //tutorials
 router.post("/addTutorial", rpController.multipleUpload, Tutorials.addTutorial);
