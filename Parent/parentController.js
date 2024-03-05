@@ -230,6 +230,19 @@ const forgotPwd = (req, res) => {
     });
 };
 
+
+const parentCollection = async (req, res) => {
+  try {
+    const parentCollections = await parents.find({});
+    const count = parentCollections.length;
+    res.json({ count });
+    console.log(parentCollections);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
 module.exports = {
   registerParent,
   viewParentById,
@@ -239,4 +252,5 @@ module.exports = {
   viewParents,
   deleteParentById,
   upload,
+  parentCollection
 };
