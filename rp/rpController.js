@@ -204,6 +204,18 @@ const addRating=(req,res)=>{
 })
 
 }
+const RpCollection = async (req, res) => {
+  try {
+    const RpCollections = await RpModel.find({});
+    const count = RpCollections.length;
+    res.json({ count });
+    console.log(RpCollections);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
 module.exports = {
   registerRp,
   loginRp,
@@ -212,5 +224,5 @@ module.exports = {
   rejectRegistration,
   acceptRegistration,
   multipleUpload,
-  addRating
+  addRating,RpCollection
 };

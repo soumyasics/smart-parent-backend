@@ -181,6 +181,17 @@ const updatePassword = async (req, res) => {
   }
 };
 
+const counsellorCollection = async (req, res) => {
+  try {
+    const counsellorCollections = await CouncilarModel.find({});
+    const count = counsellorCollections.length;
+    res.json({ count });
+    console.log(counsellorCollections);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 module.exports = {
   registerCouncilar,
   loginCouncilar,
@@ -188,5 +199,6 @@ module.exports = {
   viewCouncilarById,
   editCouncilarById,
   updatePassword,
-  deleteCouncilarById
+  deleteCouncilarById,
+  counsellorCollection
 };
