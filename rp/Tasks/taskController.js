@@ -1,9 +1,7 @@
-const taskSchema = require('./taskSchema');
-
+const TaskModel = require("./taskSchema");
 
 const addQuestions = (req, res) => {
-
-
+  console.log("workd");
   const {
     rpid,
     title,
@@ -69,15 +67,15 @@ const addQuestions = (req, res) => {
     op10_2,
     op10_3,
     op10_4,
-    ans10
+    ans10,
   } = req.body;
 
-  const newTask = new Task({
+  const newTask = new TaskModel({
     rpid,
     title,
-        description,
-      target,
-      duration,
+    description,
+    target,
+    duration,
     qn1,
     op1_1,
     op1_2,
@@ -137,19 +135,30 @@ const addQuestions = (req, res) => {
     op10_2,
     op10_3,
     op10_4,
-    ans10
+    ans10,
   });
 
-  newTask.save()
-    .then(task => {
-      res.status(200).json(task);
+  newTask
+    .save()
+    .then((task) => {
+      res.status(200).json({ data: task, message: "Task Added Successfully" });
     })
-    .catch(error => {
+    .catch((error) => {
       console.error(error);
-      res.status(500).json({ message: 'Failed to add questions.' });
+      res.status(500).json({ message: "Failed to add questions." });
     });
 };
 
+const viewAllTasks = async (req, res) => {
+  try {
+    const tasks = await TaskModel.find();
+    return res.status(200).json({ message: "tasks", data: tasks });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "server error fetching tasks", error });
+  }
+};
 
 const viewTaskQnById = async (req, res) => {
   try {
@@ -158,14 +167,16 @@ const viewTaskQnById = async (req, res) => {
       return res.status(400).json({ message: "Id is required" });
     }
 
-    const tasks = await taskSchema.findById(id);
+    const tasks = await TaskModel.findById(id);
     if (!tasks) {
       return res.status(404).json({ message: "Tasks not found" });
     }
 
     return res.status(200).json({ message: "tasks", data: tasks });
   } catch (error) {
-    return res.status(500).json({ message: "server error fetching tasks", error });
+    return res
+      .status(500)
+      .json({ message: "server error fetching tasks", error });
   }
 };
 
@@ -176,38 +187,38 @@ const viewTaskQnByRPId = async (req, res) => {
       return res.status(400).json({ message: "Id is required" });
     }
 
-    const tasks = await taskSchema.find({ rpid: id });
+    const tasks = await TaskModel.find({ rpid: id });
     if (!tasks) {
       return res.status(404).json({ message: "Tasks not found" });
     }
 
     return res.status(200).json({ message: "tasks", data: tasks });
   } catch (error) {
-    return res.status(500).json({ message: "server error fetching tasks", error });
+    return res
+      .status(500)
+      .json({ message: "server error fetching tasks", error });
   }
 };
 // Delete an existing task
 const deleteTaskById = (req, res) => {
   const id = req.params.id;
 
-  taskSchema.findByIdAndDelete(id)
-    .then(deletedVideoTutorial => {
+  TaskModel.findByIdAndDelete(id)
+    .then((deletedVideoTutorial) => {
       if (!deletedVideoTutorial) {
-        return res.json({ status: 401, message: 'Task not found.' });
+        return res.json({ status: 401, message: "Task not found." });
       }
-      res.json({ status: 200, message: 'Task  deleted successfully.' });
+      res.json({ status: 200, message: "Task  deleted successfully." });
     })
-    .catch(error => {
+    .catch((error) => {
       console.error(error);
-      res.json({ status: 500, message: 'Failed to delete Task.' });
+      res.json({ status: 500, message: "Failed to delete Task." });
     });
 };
-
-
 
 module.exports = {
   addQuestions,
   deleteTaskById,
   viewTaskQnById,
-  viewTaskQnByRPId
+  viewTaskQnByRPId,viewAllTasks
 };
