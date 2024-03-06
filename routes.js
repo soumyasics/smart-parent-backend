@@ -100,6 +100,7 @@ router.post("/viewTaskQnById/:id", taskController.viewTaskQnById);
 router.post("/viewTaskQnByRPId/:id", taskController.viewTaskQnByRPId);
 
 router.get("/viewAllTasks", taskController.viewAllTasks);
+router.post("/addAnswers/:id", taskController.addAnswers);
 
 //blogs
 router.post("/addBlog/:id", blogs.upload.array("img"), blogs.addBlog);
