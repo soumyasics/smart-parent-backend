@@ -43,6 +43,7 @@ router.post("/rejectRpRegistration/:id", rpController.rejectRegistration);
 router.post("/addRating/:id", rpController.addRating);
 
 router.post("/rpcollection", rpController.RpCollection);
+router.post("/rpforgotPwd", rpController.forgotPwd);
 
 // councilar routs
 router.post(
@@ -98,6 +99,7 @@ router.post("/addQuestions", taskController.addQuestions);
 router.post("/deleteTaskById/:id", taskController.deleteTaskById);
 router.post("/viewTaskQnById/:id", taskController.viewTaskQnById);
 router.post("/viewTaskQnByRPId/:id", taskController.viewTaskQnByRPId);
+
 router.get("/viewAllTasks", taskController.viewAllTasks);
 router.post("/addAnswers/:id", taskController.addAnswers);
 
