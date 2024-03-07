@@ -217,6 +217,39 @@ const RpCollection = async (req, res) => {
   }
 };
 
+//forgotvPawd  by id
+const forgotPwd = (req, res) => {
+  RpModel
+    .findOneAndUpdate(
+      { email: req.body.email },
+      {
+        password: req.body.password,
+      }
+    )
+    .exec()
+    .then((data) => {
+      if (data != null)
+        res.json({
+          status: 200,
+          msg: "Updated successfully",
+        });
+      else
+        res.json({
+          status: 500,
+          msg: "User Not Found",
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json({
+        status: 500,
+        msg: "Data not Updated",
+        Error: err,
+      });
+    });
+};
+
+
 module.exports = {
   registerRp,
   loginRp,
@@ -228,4 +261,5 @@ module.exports = {
   addRating,
   addRating,
   RpCollection,
+  forgotPwd
 };

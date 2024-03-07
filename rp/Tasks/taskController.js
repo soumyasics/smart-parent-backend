@@ -193,56 +193,57 @@ const deleteTaskById = (req, res) => {
 const checkanswer1 = async (ans, answers) => {
   console.log(ans, answers);
   switch (ans) {
-    case answers.op1_1.op:
-      return (score = answers.op1_1.score);
-    case answers.op1_2.op:
-      return (score = answers.op1_2.score);
-    case answers.op1_3.op:
-      return (score = answers.op1_3.score);
-    case answers.op1_4.op:
-      return (score = answers.op1_4.score);
+    case answers.op1_1:
+      return (score = answers.score1_1);
+    case answers.op1_2:
+      return (score = answers.score1_2);
+    case answers.op1_3:
+      return (score = answers.score1_3);
+    case answers.op1_4:
+      return (score = answers.score1_4);
   }
   return 0;
 };
 const checkanswer2 = async (ans, answers) => {
   console.log(ans, answers);
   switch (ans) {
-    case answers.op2_1.op:
-      return (score = answers.op2_1.score);
-    case answers.op2_2.op:
-      return (score = answers.op2_2.score);
-    case answers.op2_3.op:
-      return (score = answers.op2_3.score);
-    case answers.op2_4.op:
-      return (score = answers.op2_4.score);
+    case answers.op2_1:
+      return (score = answers.score2_1);
+    case answers.
+    op2_2:
+      return (score = answers.score2_2);
+    case answers.op2_3:
+      return (score = answers.score2_3);
+    case answers.op2_4:
+      return (score = answers.score2_4);
   }
   return 0;
 };
 const checkanswer3 = async (ans, answers) => {
   console.log(ans, answers);
   switch (ans) {
-    case answers.op3_1.op:
-      return (score = answers.op3_1.score);
-    case answers.op3_2.op:
-      return (score = answers.op3_2.score);
-    case answers.op3_3.op:
-      return (score = answers.op3_3.score);
-    case answers.op3_4.op:
-      return (score = answers.op3_4.score);
+    case answers.op3_1:
+      return (score = answers.score3_1);
+    case answers.op3_2:
+      return (score = answers.score3_2);
+    case answers.op3_3:
+      return (score = answers.score3_3);
+    case answers.op3_4:
+      return (score = answers.score3_4);
   }
   return 0;
 };
 const checkanswer4 = async (ans, answers) => {
   console.log(ans, answers);
   switch (ans) {
-    case answers.op4_1.op:
-      return (score = answers.op4_1.score);
-    case answers.op4_2.op:
-      return (score = answers.op4_2.score);
-    case answers.op4_3.op:
-      return (score = answers.op4_3.score);
-    case answers.op4_4.op:
-      return (score = answers.op4_4.score);
+    case answers.op4_1:
+      return (score = answers.score4_1);
+    case answers.op4_2:
+      return (score = answers.score3_2);
+    case answers.op4_3:
+      return (score = answers.score3_3);
+    case answers.op4_4:
+      return (score = answers.score3_4);
   }
   return 0;
 };
@@ -250,14 +251,14 @@ const checkanswer4 = async (ans, answers) => {
 const checkanswer5 = async (ans, answers) => {
   console.log(ans, answers);
   switch (ans) {
-    case answers.op5_1.op:
-      return (score = answers.op5_1.score);
-    case answers.op5_2.op:
-      return (score = answers.op5_2.score);
-    case answers.op5_3.op:
-      return (score = answers.op5_3.score);
-    case answers.op5_4.op:
-      return (score = answers.op5_4.score);
+    case answers.op5_1:
+      return (score = answers.score5_1);
+    case answers.op5_2:
+      return (score = answers.score5_2);
+    case answers.op5_3:
+      return (score = answers.score5_3);
+    case answers.op5_4:
+      return (score = answers.score5_4);
   }
   return 0;
 };
