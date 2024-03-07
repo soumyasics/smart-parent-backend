@@ -43,6 +43,7 @@ router.post("/rejectRpRegistration/:id", rpController.rejectRegistration);
 router.post("/addRating/:id", rpController.addRating);
 
 router.post("/rpcollection", rpController.RpCollection);
+router.post("/rpforgotPwd", rpController.forgotPwd);
 
 // councilar routs
 router.post(
