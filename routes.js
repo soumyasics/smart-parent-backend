@@ -47,9 +47,7 @@ router.post("/rpforgotPwd", rpController.forgotPwd);
 
 // councilar routs
 router.post(
-  "/registerCouncilar",
-  checkEmailAndPassword,
-  isEmailUnique,
+  "/registerCouncilar",councilarController.multipleUpload,
   councilarController.registerCouncilar
 );
 router.post(
