@@ -9,7 +9,7 @@ const Tutorials = require("./rp/Tutorials/tutorialController");
 const subscribeController = require("./subscribe/subscribeController");
 const taskController = require("./rp/Tasks/taskController");
 const blogs = require("./rp/Blogs/blogController");
-
+const childs = require("./child/childController");
 // common middlewares
 const { isEmailUnique } = require("./middlewares");
 // resource person middlewares
@@ -98,7 +98,7 @@ router.get(
 router.post("/addQuestions", taskController.addQuestions);
 router.post("/deleteTaskById/:id", taskController.deleteTaskById);
 router.post("/viewTaskQnById/:id", taskController.viewTaskQnById);
-router.post("/viewTaskQnByRPId/:id", taskController.viewTaskQnByRPId);
+router.get("/viewTaskQnByRPId/:id", taskController.viewTaskQnByRPId);
 
 router.get("/viewAllTasks", taskController.viewAllTasks);
 router.post("/addAnswers/:id", taskController.addAnswers);
@@ -111,4 +111,7 @@ router.post("/viewMyBlogsByCid/:id", blogs.viewMyBlogsByRPid);
 router.post("/addReview/:id", blogs.addReview);
 router.post("/deleteBlogsById/:id", blogs.deleteBlogsById);
 
+
+// childs 
+router.get("/viewAllChilds", childs.viewAllChilds);
 module.exports = router;

@@ -209,8 +209,7 @@ const checkanswer2 = async (ans, answers) => {
   switch (ans) {
     case answers.op2_1:
       return (score = answers.score2_1);
-    case answers.
-    op2_2:
+    case answers.op2_2:
       return (score = answers.score2_2);
     case answers.op2_3:
       return (score = answers.score2_3);
