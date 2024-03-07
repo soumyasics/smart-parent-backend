@@ -47,7 +47,8 @@ router.post("/rpforgotPwd", rpController.forgotPwd);
 
 // councilar routs
 router.post(
-  "/registerCouncilar",councilarController.multipleUpload,
+  "/registerCouncilar",
+  councilarController.multipleUpload,
   councilarController.registerCouncilar
 );
 router.post(
@@ -66,7 +67,6 @@ router.delete(
 );
 
 router.post("/counsellorcollection", councilarController.counsellorCollection);
-
 
 //tutorials
 router.post("/addTutorial", rpController.multipleUpload, Tutorials.addTutorial);
@@ -95,7 +95,7 @@ router.get(
 // tasks
 router.post("/addQuestions", taskController.addQuestions);
 router.post("/deleteTaskById/:id", taskController.deleteTaskById);
-router.post("/viewTaskQnById/:id", taskController.viewTaskQnById);
+router.get("/viewTaskQnById/:id", taskController.viewTaskQnById);
 router.get("/viewTaskQnByRPId/:id", taskController.viewTaskQnByRPId);
 
 router.get("/viewAllTasks", taskController.viewAllTasks);
@@ -109,7 +109,6 @@ router.post("/viewMyBlogsByCid/:id", blogs.viewMyBlogsByRPid);
 router.post("/addReview/:id", blogs.addReview);
 router.post("/deleteBlogsById/:id", blogs.deleteBlogsById);
 
-
-// childs 
+// childs
 router.get("/viewAllChilds", childs.viewAllChilds);
 module.exports = router;

@@ -190,76 +190,79 @@ const deleteTaskById = (req, res) => {
     });
 };
 
-const checkanswer1 = async (ans, answers) => {
-  console.log(ans, answers);
+const checkanswer1 = (ans, answers) => {
   switch (ans) {
     case answers.op1_1:
-      return (score = answers.score1_1);
+      return answers.score1_1;
+
     case answers.op1_2:
-      return (score = answers.score1_2);
+      return answers.score1_2;
+
     case answers.op1_3:
-      return (score = answers.score1_3);
-    case answers.op1_4:
-      return (score = answers.score1_4);
+      return answers.score1_3;
+
+    default:
+      return answers.score1_4;
   }
-  return 0;
 };
-const checkanswer2 = async (ans, answers) => {
-  console.log(ans, answers);
+const checkanswer2 = (ans, answers) => {
+  
   switch (ans) {
     case answers.op2_1:
-      return (score = answers.score2_1);
+      return answers.score2_1;
+
     case answers.op2_2:
-      return (score = answers.score2_2);
+      return answers.score2_2;
+
     case answers.op2_3:
-      return (score = answers.score2_3);
-    case answers.op2_4:
-      return (score = answers.score2_4);
+      return answers.score2_3;
+
+    default:
+      return answers.score2_4;
   }
-  return 0;
 };
-const checkanswer3 = async (ans, answers) => {
-  console.log(ans, answers);
+const checkanswer3 = (ans, answers) => {
   switch (ans) {
     case answers.op3_1:
-      return (score = answers.score3_1);
+      return answers.score3_1;
+
     case answers.op3_2:
-      return (score = answers.score3_2);
+      return answers.score3_2;
+
     case answers.op3_3:
-      return (score = answers.score3_3);
-    case answers.op3_4:
-      return (score = answers.score3_4);
+      return answers.score3_3;
+
+    default:
+      return answers.score3_4;
   }
-  return 0;
 };
-const checkanswer4 = async (ans, answers) => {
-  console.log(ans, answers);
+const checkanswer4 = (ans, answers) => {
   switch (ans) {
     case answers.op4_1:
-      return (score = answers.score4_1);
+      return answers.score4_1;
+
     case answers.op4_2:
-      return (score = answers.score3_2);
+      return answers.score3_2;
+
     case answers.op4_3:
-      return (score = answers.score3_3);
-    case answers.op4_4:
-      return (score = answers.score3_4);
+      return answers.score3_3;
+
+    default:
+      return answers.score3_4;
   }
-  return 0;
 };
 
-const checkanswer5 = async (ans, answers) => {
-  console.log(ans, answers);
+const checkanswer5 = (ans, answers) => {
   switch (ans) {
     case answers.op5_1:
-      return (score = answers.score5_1);
+      return answers.score5_1;
     case answers.op5_2:
-      return (score = answers.score5_2);
+      return answers.score5_2;
     case answers.op5_3:
-      return (score = answers.score5_3);
-    case answers.op5_4:
-      return (score = answers.score5_4);
+      return answers.score5_3;
+    default:
+      return answers.score5_4;
   }
-  return 0;
 };
 
 const getIds = async (taskid) => {
@@ -267,86 +270,79 @@ const getIds = async (taskid) => {
 };
 
 const addAnswers = async (req, res) => {
-  let rpid = null,
-    comments = "";
-  let score1 = 0,
-    score2 = 0,
-    score3 = 0,
-    score4 = 0,
-    score5 = 0,
-    ans = null,
-    total = 0;
-  await TaskModel.findById({ _id: req.params.id })
-    .exec()
-    .then((data) => {
-      ans = data;
-    })
-    .catch((error) => {
-      console.error(error);
+  try {
+    let id = req.params?.id;
+    if (!id) {
+      return res.status(400).json({ message: "Id is required" });
+    }
+    let rpid = null;
+    let comments = "";
+    let score1 = 0;
+    let score2 = 0;
+    let score3 = 0;
+    let score4 = 0;
+    let score5 = 0;
+    let total = 0;
+    let suggestion = 0;
+    let task = await TaskModel.findById(id);
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+    rpid = task.rpid;
+
+    let ans1 = req.body.ans1;
+    let ans2 = req.body.ans2;
+    let ans3 = req.body.ans3;
+    let ans4 = req.body.ans4;
+    let ans5 = req.body.ans5;
+
+    score1 = checkanswer1(ans1, task);
+    score2 = checkanswer2(ans2, task);
+    score3 = checkanswer3(ans3, task);
+    score4 = checkanswer4(ans4, task);
+    score5 = checkanswer5(ans5, task);
+    total = score1 + score2 + score3 + score4 + score5;
+
+    if (total < 8) {
+      comments = "you better get a councilor advice";
+      suggestion = 0;
+    } else if (total > 8 && total < 15) {
+      comments = "Your kid is Okay !!! But need to get more active";
+      suggestion = 1;
+    } else {
+      comments = "Your kid is Perfect !!!";
+      suggestion = 2;
+    }
+    const answers = await new ansewrmodel({
+      parentid: req.body?.parentid,
+      taskid: req.params?.id,
+      rpid: rpid,
+      ans1: req.body?.ans1,
+      ans2: req.body?.ans2,
+      ans3: req.body?.ans3,
+      ans4: req.body?.ans4,
+      ans5: req.body?.ans5,
+      score1: score1,
+      score2: score2,
+      score3: score3,
+      score4: score4,
+      score5: score5,
+      total: total,
+      comments: comments,
+      suggestion: suggestion,
     });
+    await answers.save();
 
-  let ans1 = req.body.ans1;
-  let ans2 = req.body.ans2;
-  let ans3 = req.body.ans3;
-  let ans4 = req.body.ans4;
-  let ans5 = req.body.ans5;
-  score1 = await checkanswer1(ans1, ans);
-  score2 = await checkanswer2(ans2, ans);
-  score3 = await checkanswer3(ans3, ans);
-
-  score4 = await checkanswer4(ans4, ans);
-  score5 = await checkanswer5(ans5, ans);
-  total = score1 + score2 + score3 + score4 + score5;
-  console.log("score", total);
-  await TaskModel.findById({ _id: req.params.id })
-    .exec()
-    .then((data) => {
-      rpid = data.rpid;
-    })
-    .catch((error) => {
-      console.error(error);
+    return res.status(200).json({
+      message: "Answers added successfully",
+      data: answers,
     });
-
-  if (total < 8) {
-    comments = "you better get a councilor advice";
-    suggestion = 0;
-  } else if (total > 8 && total < 15) {
-    comments = "Your kid is Okay !!! But need to get more active";
-    suggestion = 1;
-  } else {
-    comments = "Your kid is Perfect !!!";
-    suggestion = 2;
+  } catch (error) {
+    console.log("error on add answers", error);
+    return res
+      .status(500)
+      .json({ message: "server error on add answers", error });
   }
-  const answerss = new ansewrmodel({
-    parentid: req.body.parentid,
-    taskid: req.params.id,
-    rpid: rpid,
-    ans1: req.body.ans1,
-    ans2: req.body.ans2,
-    ans3: req.body.ans3,
-    ans4: req.body.ans4,
-    ans5: req.body.ans5,
-    score1: score1,
-    score2: score2,
-    score3: score3,
-    score4: score4,
-    score5: score5,
-    total: total,
-    comments: comments,
-    suggestion: suggestion,
-  });
-  await answerss
-    .save()
-    .then((data) => {
-      return res.status(200).json({
-        message: "Answers added successfully",
-        data,
-      });
-    })
-    .catch((error) => {
-      console.log(error);
-      return res.status(500).json({ message: "Server Error.", error });
-    });
 };
 
 module.exports = {
