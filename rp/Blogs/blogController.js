@@ -49,7 +49,6 @@ const viewBlogsById=(req,res)=>{
   
     blogSchema.findById({_id:req.params.id}).populate('rpid').exec()
     .then(data=>{
-      console.log(data);
       res.json({
           status:200,
           msg:"Data obtained successfully",
@@ -72,7 +71,6 @@ const viewAllBlogs=(req,res)=>{
   
     blogSchema.find({}).populate('rpid').exec()
     .then(data=>{
-      console.log(data);
       res.json({
           status:200,
           msg:"Data obtained successfully",
@@ -96,7 +94,6 @@ const viewMyBlogsByRPid=(req,res)=>{
   
     blogSchema.find({rpid:req.params.id}).exec()
     .then(data=>{
-      console.log(data);
       res.json({
           status:200,
           msg:"Data obtained successfully",
@@ -123,7 +120,6 @@ const addReview=(req,res)=>{
     .then(data=>{
     arr=data.reviews
     arr.push(review)
-    console.log(arr);
     blogSchema.findByIdAndUpdate({_id:req.params.id},{
       reviews:arr
     }).exec()

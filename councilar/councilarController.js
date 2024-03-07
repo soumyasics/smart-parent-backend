@@ -186,7 +186,7 @@ const counsellorCollection = async (req, res) => {
     const counsellorCollections = await CouncilarModel.find({});
     const count = counsellorCollections.length;
     res.json({ count });
-    console.log(counsellorCollections);
+    // console.log(counsellorCollections);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

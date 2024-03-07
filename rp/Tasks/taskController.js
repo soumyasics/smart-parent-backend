@@ -1,7 +1,6 @@
 const TaskModel = require("./taskSchema");
 
 const addQuestions = (req, res) => {
-  console.log("workd");
   const {
     rpid,
     title,
