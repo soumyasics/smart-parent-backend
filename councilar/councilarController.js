@@ -1,16 +1,49 @@
 const CouncilarModel = require("./councilarSchema.js");
 const bcrypt = require("bcrypt");
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: function (req, res, cb) {
+    cb(null, "./upload");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+
+
+const multipleUpload = multer({ storage: storage }).array("files", 2);
+
 const registerCouncilar = async (req, res) => {
   try {
     const { name, email, password, contact, age, experienceYear } = req.body;
+    
+    const existingCounselor = await CouncilarModel.findOne({ email });
+    if (existingCounselor) {
+      return res
+        .status(400)
+        .json({ message: "Resource Person with this email already exists" });
+    }
+
+    console.log("reb", req.body);
+    if (req.files && req.files.length > 0) {
+      console.log("ok");
+    } else {
+      console.log(" not ok");
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const proImg = req?.files[0] || null;
+    const certImg = req?.files[1] || null;
+
     const councilar = await new CouncilarModel({
       name,
       contact,
       age,
       experienceYear,
       email,
+      profilePicture: proImg,
+      certificateImg: certImg,
       password: hashedPassword,
     });
 
@@ -186,7 +219,7 @@ const counsellorCollection = async (req, res) => {
     const counsellorCollections = await CouncilarModel.find({});
     const count = counsellorCollections.length;
     res.json({ count });
-    console.log(counsellorCollections);
+    // console.log(counsellorCollections);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -200,5 +233,6 @@ module.exports = {
   editCouncilarById,
   updatePassword,
   deleteCouncilarById,
-  counsellorCollection
+  counsellorCollection,
+  multipleUpload
 };
