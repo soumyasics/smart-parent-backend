@@ -12,7 +12,7 @@ const blogs = require("./rp/Blogs/blogController");
 
 const ctutorials = require("./councilar/Tutorials/tutorialController");
 const childs = require("./child/childController");
-const {uploadSingleImg} = require("./rp/middleware")
+const { uploadSingleImg } = require("./rp/middleware");
 
 // common middlewares
 const { isEmailUnique } = require("./middlewares");
@@ -106,24 +106,30 @@ router.get("/viewAllTasks", taskController.viewAllTasks);
 router.post("/addAnswers/:id", taskController.addAnswers);
 
 //blogs
-router.post("/addBlog",uploadSingleImg, blogs.addBlog);
-router.post("/viewAllBlogs", blogs.viewAllBlogs);
-router.post("/viewBlogsById/:id", blogs.viewBlogsById);
-router.post("/viewMyBlogsByCid/:id", blogs.viewMyBlogsByRPid);
+router.post("/addBlog", uploadSingleImg, blogs.addBlog);
+router.get("/viewAllBlogs", blogs.viewAllBlogs);
+router.get("/viewBlogsById/:id", blogs.viewBlogsById);
+router.get("/viewMyBlogsByRpid/:id", blogs.viewMyBlogsByRPid);
 router.post("/addReview/:id", blogs.addReview);
 router.post("/deleteBlogsById/:id", blogs.deleteBlogsById);
 
-
-
 //consellor tutorials
-router.post("/counselloraddTutorial", ctutorials.upload, ctutorials.addTutorial);
+router.post(
+  "/counselloraddTutorial",
+  ctutorials.upload,
+  ctutorials.addTutorial
+);
 router.get("/viewAllcounsellorTutorials", ctutorials.getAllTutorials);
-router.get("/viewcounsellorTutorialByRpId/:id", ctutorials.getTutorialsByCouncellorId);
+router.get(
+  "/viewcounsellorTutorialByRpId/:id",
+  ctutorials.getTutorialsByCouncellorId
+);
 router.get("/editcounsellorVideoTutorial/:id", ctutorials.editVideoTutorial);
-router.patch("/deletecounsellorVideoTutorial/:id", ctutorials.deleteVideoTutorial);
+router.patch(
+  "/deletecounsellorVideoTutorial/:id",
+  ctutorials.deleteVideoTutorial
+);
 router.get("/getcounsellorTutorialById/:id", ctutorials.getTutorialById);
 
 router.get("/viewAllChilds", childs.viewAllChilds);
 module.exports = router;
-
-

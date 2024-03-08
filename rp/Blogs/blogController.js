@@ -14,7 +14,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 const addBlog = (req, res) => {
-
   const newBlog = new blogSchema({
     para1: req.body.para1,
     para2: req.body.para2,
@@ -93,6 +92,7 @@ const viewAllBlogs = (req, res) => {
 const viewMyBlogsByRPid = (req, res) => {
   blogSchema
     .find({ rpid: req.params.id })
+    .populate("rpid")
     .exec()
     .then((data) => {
       res.json({
