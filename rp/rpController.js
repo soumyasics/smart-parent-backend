@@ -26,7 +26,6 @@ const registerRp = async (req, res) => {
         .json({ message: "Resource Person with this email already exists" });
     }
 
-    console.log("reb", req.body);
     if (req.files && req.files.length > 0) {
       console.log("ok");
     } else {
@@ -205,7 +204,6 @@ const addRating = (req, res) => {
     });
 };
 
-
 const RpCollection = async (req, res) => {
   try {
     const RpCollections = await RpModel.find({});
@@ -219,13 +217,12 @@ const RpCollection = async (req, res) => {
 
 //forgotvPawd  by id
 const forgotPwd = (req, res) => {
-  RpModel
-    .findOneAndUpdate(
-      { email: req.body.email },
-      {
-        password: req.body.password,
-      }
-    )
+  RpModel.findOneAndUpdate(
+    { email: req.body.email },
+    {
+      password: req.body.password,
+    }
+  )
     .exec()
     .then((data) => {
       if (data != null)
@@ -249,7 +246,6 @@ const forgotPwd = (req, res) => {
     });
 };
 
-
 module.exports = {
   registerRp,
   loginRp,
@@ -261,5 +257,5 @@ module.exports = {
   addRating,
   addRating,
   RpCollection,
-  forgotPwd
+  forgotPwd,
 };

@@ -9,7 +9,9 @@ const Tutorials = require("./rp/Tutorials/tutorialController");
 const subscribeController = require("./subscribe/subscribeController");
 const taskController = require("./rp/Tasks/taskController");
 const blogs = require("./rp/Blogs/blogController");
+
 const ctutorials = require("./councilar/Tutorials/tutorialController");
+const childs = require("./child/childController");
 
 // common middlewares
 const { isEmailUnique } = require("./middlewares");
@@ -49,8 +51,7 @@ router.post("/rpforgotPwd", rpController.forgotPwd);
 // councilar routs
 router.post(
   "/registerCouncilar",
-  checkEmailAndPassword,
-  isEmailUnique,
+  councilarController.multipleUpload,
   councilarController.registerCouncilar
 );
 router.post(
@@ -69,7 +70,6 @@ router.delete(
 );
 
 router.post("/counsellorcollection", councilarController.counsellorCollection);
-
 
 //tutorials
 router.post("/addTutorial", rpController.multipleUpload, Tutorials.addTutorial);
@@ -98,8 +98,8 @@ router.get(
 // tasks
 router.post("/addQuestions", taskController.addQuestions);
 router.post("/deleteTaskById/:id", taskController.deleteTaskById);
-router.post("/viewTaskQnById/:id", taskController.viewTaskQnById);
-router.post("/viewTaskQnByRPId/:id", taskController.viewTaskQnByRPId);
+router.get("/viewTaskQnById/:id", taskController.viewTaskQnById);
+router.get("/viewTaskQnByRPId/:id", taskController.viewTaskQnByRPId);
 
 router.get("/viewAllTasks", taskController.viewAllTasks);
 router.post("/addAnswers/:id", taskController.addAnswers);
@@ -113,6 +113,7 @@ router.post("/addReview/:id", blogs.addReview);
 router.post("/deleteBlogsById/:id", blogs.deleteBlogsById);
 
 
+
 //consellor tutorials
 router.post("/counselloraddTutorial", ctutorials.upload, ctutorials.addTutorial);
 router.get("/viewAllcounsellorTutorials", ctutorials.getAllTutorials);
@@ -120,6 +121,8 @@ router.get("/viewcounsellorTutorialByRpId/:id", ctutorials.getTutorialsByCouncel
 router.get("/editcounsellorVideoTutorial/:id", ctutorials.editVideoTutorial);
 router.patch("/deletecounsellorVideoTutorial/:id", ctutorials.deleteVideoTutorial);
 router.get("/getcounsellorTutorialById/:id", ctutorials.getTutorialById);
+
+router.get("/viewAllChilds", childs.viewAllChilds);
 module.exports = router;
 
 
