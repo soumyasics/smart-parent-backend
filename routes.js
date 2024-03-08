@@ -10,6 +10,7 @@ const subscribeController = require("./subscribe/subscribeController");
 const taskController = require("./rp/Tasks/taskController");
 const blogs = require("./rp/Blogs/blogController");
 const childs = require("./child/childController");
+const {uploadSingleImg} = require("./rp/middleware")
 // common middlewares
 const { isEmailUnique } = require("./middlewares");
 // resource person middlewares
@@ -102,7 +103,7 @@ router.get("/viewAllTasks", taskController.viewAllTasks);
 router.post("/addAnswers/:id", taskController.addAnswers);
 
 //blogs
-router.post("/addBlog/:id", blogs.upload.array("img"), blogs.addBlog);
+router.post("/addBlog",uploadSingleImg, blogs.addBlog);
 router.post("/viewAllBlogs", blogs.viewAllBlogs);
 router.post("/viewBlogsById/:id", blogs.viewBlogsById);
 router.post("/viewMyBlogsByCid/:id", blogs.viewMyBlogsByRPid);

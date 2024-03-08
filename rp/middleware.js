@@ -1,3 +1,4 @@
+const multer = require("multer");
 const checkEmailAndPassword = async (req, res, next) => {
   try {
     console.log("req",req.body);
@@ -17,5 +18,15 @@ const checkEmailAndPassword = async (req, res, next) => {
   }
 };
 
+const storage = multer.diskStorage({
+  destination: function (req, res, cb) {
+    cb(null, "./upload");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
 
-module.exports = { checkEmailAndPassword};
+const uploadSingleImg = multer({ storage: storage }).array("files", 1);
+
+module.exports = { checkEmailAndPassword, uploadSingleImg};

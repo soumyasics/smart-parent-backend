@@ -5,7 +5,7 @@ const blogSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    parar2: {
+    para2: {
       type: String,
     },
 
@@ -20,7 +20,7 @@ const blogSchema = mongoose.Schema(
       ref: "rp",
     },
     img: {
-      type: Array,
+      type: Object,
     },
     reviews: Array,
   },
