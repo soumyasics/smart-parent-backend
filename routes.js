@@ -9,6 +9,7 @@ const Tutorials = require("./rp/Tutorials/tutorialController");
 const subscribeController = require("./subscribe/subscribeController");
 const taskController = require("./rp/Tasks/taskController");
 const blogs = require("./rp/Blogs/blogController");
+const ctutorials = require("./councilar/Tutorials/tutorialController");
 
 // common middlewares
 const { isEmailUnique } = require("./middlewares");
@@ -111,4 +112,14 @@ router.post("/viewMyBlogsByCid/:id", blogs.viewMyBlogsByRPid);
 router.post("/addReview/:id", blogs.addReview);
 router.post("/deleteBlogsById/:id", blogs.deleteBlogsById);
 
+
+//consellor tutorials
+router.post("/counselloraddTutorial", ctutorials.upload, ctutorials.addTutorial);
+router.get("/viewAllcounsellorTutorials", ctutorials.getAllTutorials);
+router.get("/viewcounsellorTutorialByRpId/:id", ctutorials.getTutorialsByCouncellorId);
+router.get("/editcounsellorVideoTutorial/:id", ctutorials.editVideoTutorial);
+router.patch("/deletecounsellorVideoTutorial/:id", ctutorials.deleteVideoTutorial);
+router.get("/getcounsellorTutorialById/:id", ctutorials.getTutorialById);
 module.exports = router;
+
+
