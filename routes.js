@@ -9,8 +9,11 @@ const Tutorials = require("./rp/Tutorials/tutorialController");
 const subscribeController = require("./subscribe/subscribeController");
 const taskController = require("./rp/Tasks/taskController");
 const blogs = require("./rp/Blogs/blogController");
+
+const ctutorials = require("./councilar/Tutorials/tutorialController");
 const childs = require("./child/childController");
 const {uploadSingleImg} = require("./rp/middleware")
+
 // common middlewares
 const { isEmailUnique } = require("./middlewares");
 // resource person middlewares
@@ -110,6 +113,17 @@ router.post("/viewMyBlogsByCid/:id", blogs.viewMyBlogsByRPid);
 router.post("/addReview/:id", blogs.addReview);
 router.post("/deleteBlogsById/:id", blogs.deleteBlogsById);
 
-// childs
+
+
+//consellor tutorials
+router.post("/counselloraddTutorial", ctutorials.upload, ctutorials.addTutorial);
+router.get("/viewAllcounsellorTutorials", ctutorials.getAllTutorials);
+router.get("/viewcounsellorTutorialByRpId/:id", ctutorials.getTutorialsByCouncellorId);
+router.get("/editcounsellorVideoTutorial/:id", ctutorials.editVideoTutorial);
+router.patch("/deletecounsellorVideoTutorial/:id", ctutorials.deleteVideoTutorial);
+router.get("/getcounsellorTutorialById/:id", ctutorials.getTutorialById);
+
 router.get("/viewAllChilds", childs.viewAllChilds);
 module.exports = router;
+
+
