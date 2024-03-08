@@ -21,7 +21,7 @@ const councilarSchema = mongoose.Schema(
     },
     contact: {
       type: String,
-      default: "",
+      required:true
     },
     isAdminApproved: {
       type: Boolean,
@@ -45,5 +45,5 @@ const councilarSchema = mongoose.Schema(
   }
 );
 
-const CouncilarModel = mongoose.model("Councilar", councilarSchema);
+const CouncilarModel = mongoose.model("counsellors", councilarSchema);
 module.exports = CouncilarModel;
