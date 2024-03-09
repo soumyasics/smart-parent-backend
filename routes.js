@@ -71,7 +71,9 @@ router.delete(
 );
 
 router.post("/counsellorcollection", councilarController.counsellorCollection);
-router.post("/counselloraddrating/:id", councilarController.addRating);
+router.post("/counselloraddrating/:id", councilarController.addRating);//skr
+router.post("/viewCouncillorReqs", councilarController.viewCouncillorReqs);//skr
+router.post("/approveCouncillorById/:id", councilarController.approveCouncillorById);//skr
 
 
 
