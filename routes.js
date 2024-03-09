@@ -71,6 +71,10 @@ router.delete(
 );
 
 router.post("/counsellorcollection", councilarController.counsellorCollection);
+router.post("/counselloraddrating/:id", councilarController.addRating);
+
+
+
 
 //tutorials
 router.post("/addTutorial", rpController.multipleUpload, Tutorials.addTutorial);
