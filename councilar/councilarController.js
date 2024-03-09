@@ -87,7 +87,7 @@ const loginCouncilar = async (req, res) => {
 
 const viewAllCouncilars = async (req, res) => {
   try {
-    const councilars = await CouncilarModel.find();
+    const councilars = await CouncilarModel.find({isAdminApproved:true});
     return res
       .status(200)
       .json({ message: "All Councilars", data: councilars });
@@ -261,6 +261,60 @@ const addRating = (req, res) => {
     });
 };
 
+
+const viewCouncillorReqs = (req, res) => {
+  CouncilarModel
+    .find({isAdminApproved:false})
+    .exec()
+    .then((data) => {
+      if (data.length > 0) {
+        res.json({
+          status: 200,
+          msg: "Data obtained successfully",
+          data: data,
+        });
+      } else {
+        res.json({
+          status: 200,
+          data:data,
+          msg: "No Data obtained ",
+        });
+      }
+    })
+    .catch((err) => {
+      res.json({
+        status: 500,
+        msg: "Data not Inserted",
+        Error: err,
+      });
+    });
+};
+
+// view  finished
+
+//Approve Councillors
+
+const approveCouncillorById = (req, res) => {
+  CouncilarModel
+    .findByIdAndUpdate({_id:req.params.id},{isAdminApproved:true})
+    .exec()
+    .then((result) => {
+      res.json({
+          status: 200,
+          data: result,
+          msg: 'data obtained'
+      })
+  })
+  .catch(err => {
+      res.json({
+          status: 500,
+          msg: 'Error in API',
+          err: err
+      })
+  })
+};
+
+
 module.exports = {
   registerCouncilar,
   loginCouncilar,
@@ -271,5 +325,7 @@ module.exports = {
   deleteCouncilarById,
   counsellorCollection,
   multipleUpload,
-  addRating
+  addRating,
+  viewCouncillorReqs,
+  approveCouncillorById
 };
