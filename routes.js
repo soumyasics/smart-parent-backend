@@ -12,6 +12,8 @@ const blogs = require("./rp/Blogs/blogController");
 
 const ctutorials = require("./councilar/Tutorials/tutorialController");
 const childs = require("./child/childController");
+const parentRpChatController = require("./Chats/parentRpChatController");
+
 const { uploadSingleImg } = require("./rp/middleware");
 
 // common middlewares
@@ -138,4 +140,14 @@ router.patch(
 router.get("/getcounsellorTutorialById/:id", ctutorials.getTutorialById);
 
 router.get("/viewAllChilds", childs.viewAllChilds);
+
+
+
+//chat -soumya 
+router.post("/chattingParentRp", parentRpChatController.chattingParentRp);
+router.post("/viewChatRecipientsforParentId/:id", parentRpChatController.viewChatRecipientsforParentId);
+router.post("/viewChatRecipientsforParentId/:id", parentRpChatController.viewChatRecipientsforParentId);
+router.post("/viewChatBerweenParentAndRp", parentRpChatController.viewChatBerweenParentAndRp);
+
+
 module.exports = router;
