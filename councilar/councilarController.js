@@ -87,7 +87,7 @@ const loginCouncilar = async (req, res) => {
 
 const viewAllCouncilars = async (req, res) => {
   try {
-    const councilars = await CouncilarModel.find({isAdminApproved:true});
+    const councilars = await CouncilarModel.find({});
     return res
       .status(200)
       .json({ message: "All Councilars", data: councilars });
