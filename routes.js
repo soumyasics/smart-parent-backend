@@ -74,8 +74,8 @@ router.delete(
 
 router.post("/counsellorcollection", councilarController.counsellorCollection);
 router.post("/counselloraddrating/:id", councilarController.addRating);//skr
-router.post("/viewCouncillorReqs", councilarController.viewCouncillorReqs);//skr
-router.post("/approveCouncillorById/:id", councilarController.approveCouncillorById);//skr
+// router.post("/viewCouncillorReqs", councilarController.viewCouncillorReqs);//skr
+// router.post("/approveCouncillorById/:id", councilarController.approveCouncillorById);//skr
 
 
 
@@ -140,6 +140,9 @@ router.patch(
 router.get("/getcounsellorTutorialById/:id", ctutorials.getTutorialById);
 
 router.get("/viewAllChilds", childs.viewAllChilds);
+
+router.post("/cacceptRpRegistration/:id", councilarController.acceptRegistrationCounsellor);
+router.post("/crejectRpRegistration/:id", councilarController.rejectRegistrationCounsellor);
 
 
 
