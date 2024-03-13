@@ -149,7 +149,7 @@ router.post("/crejectRpRegistration/:id", councilarController.rejectRegistration
 //chat -soumya 
 router.post("/chattingParentRp", parentRpChatController.chattingParentRp);
 router.post("/viewChatRecipientsforParentId/:id", parentRpChatController.viewChatRecipientsforParentId);
-router.post("/viewChatRecipientsforParentId/:id", parentRpChatController.viewChatRecipientsforParentId);
+router.post("/viewChatRecipientsforRPId/:id", parentRpChatController.viewChatRecipientsforParentId);
 router.post("/viewChatBerweenParentAndRp", parentRpChatController.viewChatBerweenParentAndRp);
 
 

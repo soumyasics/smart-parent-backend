@@ -93,6 +93,7 @@ parents.push(x.parentid)
     });
 };
 const viewChatBerweenParentAndRp=(req,res)=>{
+  console.log("inps",req.body); 
     let rpid=req.body.rpid 
     let parentid=req.body.parentid
     chat.find({
@@ -119,7 +120,7 @@ const viewChatBerweenParentAndRp=(req,res)=>{
 }
 module.exports={chattingParentRp,
     viewChatRecipientsforParentId,
-    viewChatRecipientsforParentId,
+    viewChatRecipientsforRPId,
     viewChatBerweenParentAndRp,
     
 }
