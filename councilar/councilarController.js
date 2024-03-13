@@ -50,13 +50,13 @@ const registerCouncilar = async (req, res) => {
     await councilar.save();
 
     return res.status(200).json({
-      message: "Resource Person registered successfully",
+      message: "Counsellor registered successfully",
       data: councilar,
     });
   } catch (error) {
     return res
       .status(500)
-      .json({ message: "Server Error on registration rp.", error });
+      .json({ message: "Server Error on registration counsellor.", error });
   }
 };
 
@@ -87,12 +87,12 @@ const loginCouncilar = async (req, res) => {
 
 const viewAllCouncilars = async (req, res) => {
   try {
-    const councilars = await CouncilarModel.find({isAdminApproved:true});
+    const councilars = await CouncilarModel.find();
     return res
       .status(200)
       .json({ message: "All Councilars", data: councilars });
   } catch (error) {
-    return res.status(500).json({ message: "server error on login rp", error });
+    return res.status(500).json({ message: "server error on login Councilars", error });
   }
 };
 
@@ -262,58 +262,105 @@ const addRating = (req, res) => {
 };
 
 
-const viewCouncillorReqs = (req, res) => {
-  CouncilarModel
-    .find({isAdminApproved:false})
-    .exec()
-    .then((data) => {
-      if (data.length > 0) {
-        res.json({
-          status: 200,
-          msg: "Data obtained successfully",
-          data: data,
-        });
-      } else {
-        res.json({
-          status: 200,
-          data:data,
-          msg: "No Data obtained ",
-        });
-      }
-    })
-    .catch((err) => {
-      res.json({
-        status: 500,
-        msg: "Data not Inserted",
-        Error: err,
-      });
-    });
-};
+// const viewCouncillorReqs = (req, res) => {
+//   CouncilarModel
+//     .find({isAdminApproved:false})
+//     .exec()
+//     .then((data) => {
+//       if (data.length > 0) {
+//         res.json({
+//           status: 200,
+//           msg: "Data obtained successfully",
+//           data: data,
+//         });
+//       } else {
+//         res.json({
+//           status: 200,
+//           data:data,
+//           msg: "No Data obtained ",
+//         });
+//       }
+//     })
+//     .catch((err) => {
+//       res.json({
+//         status: 500,
+//         msg: "Data not Inserted",
+//         Error: err,
+//       });
+//     });
+// };
 
 // view  finished
 
 //Approve Councillors
 
-const approveCouncillorById = (req, res) => {
-  CouncilarModel
-    .findByIdAndUpdate({_id:req.params.id},{isAdminApproved:true})
-    .exec()
-    .then((result) => {
-      res.json({
-          status: 200,
-          data: result,
-          msg: 'data obtained'
-      })
-  })
-  .catch(err => {
-      res.json({
-          status: 500,
-          msg: 'Error in API',
-          err: err
-      })
-  })
+// const approveCouncillorById = (req, res) => {
+//   CouncilarModel
+//     .findByIdAndUpdate({_id:req.params.id},{isAdminApproved:true})
+//     .exec()
+//     .then((result) => {
+//       res.json({
+//           status: 200,
+//           data: result,
+//           msg: 'data obtained'
+//       })
+//   })
+//   .catch(err => {
+//       res.json({
+//           status: 500,
+//           msg: 'Error in API',
+//           err: err
+//       })
+//   })
+// };
+
+const acceptRegistrationCounsellor = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({ message: "Id is required" });
+    }
+
+    const councilar = await CouncilarModel.findById(id);
+    if (!councilar) {
+      return res.status(404).json({ message: "councilar not found" });
+    }
+
+    councilar.isAdminApproved = "accepted";
+    await councilar.save();
+    return res
+      .status(200)
+      .json({ message: "councilar registration accepted", data: councilar });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "server error on accept councilar", error });
+  }
 };
 
+const rejectRegistrationCounsellor = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({ message: "Id is required" });
+    }
+
+    const councilar = await CouncilarModel.findById(id);
+    if (!councilar) {
+      return res.status(404).json({ message: "Councilar not found" });
+    }
+
+    councilar.isAdminApproved = "rejected";
+    await councilar.save();
+    return res
+      .status(200)
+      .json({ message: "Councilar registration rejected", data: councilar });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "server error on reject Councilar", error });
+  }
+};
 
 module.exports = {
   registerCouncilar,
@@ -326,6 +373,6 @@ module.exports = {
   counsellorCollection,
   multipleUpload,
   addRating,
-  viewCouncillorReqs,
-  approveCouncillorById
+  acceptRegistrationCounsellor,
+  rejectRegistrationCounsellor
 };

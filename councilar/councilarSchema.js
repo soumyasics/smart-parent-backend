@@ -24,8 +24,8 @@ const councilarSchema = mongoose.Schema(
       required:true
     },
     isAdminApproved: {
-      type: Boolean,
-      default: false,
+      type: String,
+      default: "pending",
     },
     experienceYear: {
       type: String,
