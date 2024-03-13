@@ -171,6 +171,7 @@ const rejectRegistration = async (req, res) => {
 };
 
 const addRating = (req, res) => {
+  console.log("work ratin", req.body);
   let newRate = parseInt(req.body.rating);
   let rating = 0;
   RpModel.findById({ _id: req.params.id })
@@ -179,12 +180,12 @@ const addRating = (req, res) => {
       rating = data.rating;
       if (data.rating != 0) rating = (rating + newRate) / 2;
       else rating = newRate;
-      console.log(rating);
       RpModel.findByIdAndUpdate(
         { _id: req.params.id },
         {
           rating: rating,
-        }
+        },
+        { new: true }
       )
         .exec()
         .then((data) => {
@@ -254,7 +255,6 @@ module.exports = {
   rejectRegistration,
   acceptRegistration,
   multipleUpload,
-  addRating,
   addRating,
   RpCollection,
   forgotPwd,
