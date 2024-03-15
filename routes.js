@@ -73,12 +73,9 @@ router.delete(
 );
 
 router.post("/counsellorcollection", councilarController.counsellorCollection);
-router.post("/counselloraddrating/:id", councilarController.addRating);//skr
+router.post("/counselloraddrating/:id", councilarController.addRating); //skr
 // router.post("/viewCouncillorReqs", councilarController.viewCouncillorReqs);//skr
 // router.post("/approveCouncillorById/:id", councilarController.approveCouncillorById);//skr
-
-
-
 
 //tutorials
 router.post("/addTutorial", rpController.multipleUpload, Tutorials.addTutorial);
@@ -141,16 +138,34 @@ router.get("/getcounsellorTutorialById/:id", ctutorials.getTutorialById);
 
 router.get("/viewAllChilds", childs.viewAllChilds);
 
-router.post("/cacceptRpRegistration/:id", councilarController.acceptRegistrationCounsellor);
-router.post("/crejectRpRegistration/:id", councilarController.rejectRegistrationCounsellor);
+router.post(
+  "/cacceptRpRegistration/:id",
+  councilarController.acceptRegistrationCounsellor
+);
+router.post(
+  "/crejectRpRegistration/:id",
+  councilarController.rejectRegistrationCounsellor
+);
 
-
-
-//chat -soumya 
+//chat -soumya
 router.post("/chattingParentRp", parentRpChatController.chattingParentRp);
-router.post("/viewChatRecipientsforParentId/:id", parentRpChatController.viewChatRecipientsforParentId);
-router.post("/viewChatRecipientsforRPId/:id", parentRpChatController.viewChatRecipientsforParentId);
-router.post("/viewChatBerweenParentAndRp", parentRpChatController.viewChatBerweenParentAndRp);
+router.post(
+  "/viewChatRecipientsforParentId/:id",
+  parentRpChatController.viewChatRecipientsforParentId
+);
+router.post(
+  "/viewChatRecipientsforRPId/:id",
+  parentRpChatController.viewChatRecipientsforParentId
+);
+router.post(
+  "/viewChatBerweenParentAndRp",
+  parentRpChatController.viewChatBerweenParentAndRp
+);
+router.post(
+  "/get-chat-between-parent-and-rp",
+  parentRpChatController.getChatBetweenParentAndRp
+);
 
+router.get("/getAllChats", parentRpChatController.getAllChats);
 
 module.exports = router;

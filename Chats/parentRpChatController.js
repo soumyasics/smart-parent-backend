@@ -4,7 +4,7 @@ const chattingParentRp = async (req, res) => {
   const { rpid, parentid, content, sender } = req.body;
 
   // Create a new message
-  const message =  new chat({
+  const message = new chat({
     rpid: rpid,
     parentid: parentid,
     content: content,
@@ -121,9 +121,41 @@ const viewChatBerweenParentAndRp = (req, res) => {
       });
     });
 };
+
+const getChatBetweenParentAndRp = async (req, res) => {
+  const { rpid, parentid } = req.body;
+  try {
+    const data = await chat.find({ rpid: rpid, parentid: parentid });
+    return res.status(200).json({
+      message: "Data obtained successfully",
+      data: data,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Error on get chat between parent and rp",
+      data: err,
+    });
+  }
+};
+const getAllChats = async (req, res) => {
+  try {
+    const data = await chat.find();
+    return res.status(200).json({
+      message: "Data obtained successfully",
+      data: data,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Error on get chat between parent and rp",
+      data: err,
+    });
+  }
+};
+
 module.exports = {
   chattingParentRp,
   viewChatRecipientsforParentId,
   viewChatRecipientsforRPId,
   viewChatBerweenParentAndRp,
+  getChatBetweenParentAndRp, getAllChats
 };
