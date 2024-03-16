@@ -1,31 +1,29 @@
+const mongoose = require("mongoose");
 
-const mongoose = require('mongoose');
-
-const messageSchema = new mongoose.Schema({
+const messageSchema = new mongoose.Schema(
+  {
     rpid: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'rp',
-        required: true
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "rp",
+      required: true,
     },
     parentid: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'parents',
-        required: true
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "parents",
+      required: true,
     },
     content: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
+    sender: {
+      type: String,
+      required: true,
     },
-    sender:{
-        type:String,
-        required:true
-    }
-});
+  },
+  { timestamps: true }
+);
 
-const Message = mongoose.model('parentrpchats', messageSchema);
+const Message = mongoose.model("parentrpchats", messageSchema);
 
 module.exports = Message;
