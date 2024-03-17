@@ -88,6 +88,7 @@ const loginCouncilar = async (req, res) => {
 const viewAllCouncilars = async (req, res) => {
   try {
 
+
     const councilars = await CouncilarModel.find();
 
     return res

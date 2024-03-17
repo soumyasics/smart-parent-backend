@@ -65,7 +65,7 @@ router.post(
 
 router.get("/viewAllCouncilars", councilarController.viewAllCouncilars);
 router.get("/viewCouncilarById/:id", councilarController.viewCouncilarById);
-router.patch("/editCouncilarById/:id", councilarController.editCouncilarById);
+router.post("/editCouncilarById/:id", councilarController.editCouncilarById);
 router.patch("/updatePassword/:id", councilarController.updatePassword);
 router.delete(
   "/deleteCouncilarById/:id",
@@ -167,5 +167,6 @@ router.post(
 );
 
 router.get("/getAllChats", parentRpChatController.getAllChats);
+router.post("/rpedit/:id", rpController.editrpById);
 
 module.exports = router;
