@@ -247,6 +247,58 @@ const forgotPwd = (req, res) => {
     });
 };
 
+const editrpById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({ message: "Id is required" });
+    }
+
+    const rp = await RpModel.findById(id);
+    if (!rp) {
+      return res.status(404).json({ message: "rp not found" });
+    }
+
+    const { name, email, password, contact, age, experienceYear } = req.body;
+
+    let editingFields = {};
+
+    if (name) {
+      editingFields.name = name;
+    }
+    if (contact) {
+      editingFields.contact = contact;
+    }
+    if (age) {
+      editingFields.age = age;
+    }
+    if (experienceYear) {
+      editingFields.experienceYear = experienceYear;
+    }
+    if (email) {
+      editingFields.email = email;
+    }
+    if (password) {
+      editingFields.password = password;
+    }
+    const updatedrp = await RpModel.findByIdAndUpdate(
+      id,
+      editingFields,
+      { new: true }
+    );
+
+    return res
+      .status(200)
+      .json({
+        message: "rp updated successfully",
+        data: updatedrp,
+      });
+  } catch (error) {
+    return res.status(500).json({ message: "server error on login rp", error });
+  }
+};
+
+
 module.exports = {
   registerRp,
   loginRp,
@@ -258,4 +310,5 @@ module.exports = {
   addRating,
   RpCollection,
   forgotPwd,
+  editrpById
 };
