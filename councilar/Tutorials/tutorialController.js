@@ -41,7 +41,7 @@ const addTutorial = async (req, res) => {
 
 const getAllTutorials = async (req, res) => {
   try {
-    const videoTutorials = await tutorialSchema.find().populate("rpid").exec();
+    const videoTutorials = await tutorialSchema.find().populate("cid").exec();
     return res.status(200).json({
       data: videoTutorials,
       message: "All Video Tutorials",

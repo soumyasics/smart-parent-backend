@@ -121,12 +121,12 @@ router.post("/deleteBlogsById/:id", blogs.deleteBlogsById);
 //consellor tutorials
 router.post(
   "/counselloraddTutorial",
-  ctutorials.upload,
+  rpController.multipleUpload,
   ctutorials.addTutorial
 );
 router.get("/viewAllcounsellorTutorials", ctutorials.getAllTutorials);
 router.get(
-  "/viewcounsellorTutorialByRpId/:id",
+  "/viewTutorialByCounsellorId/:id",
   ctutorials.getTutorialsByCouncellorId
 );
 router.get("/editcounsellorVideoTutorial/:id", ctutorials.editVideoTutorial);
