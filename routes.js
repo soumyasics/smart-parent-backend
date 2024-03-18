@@ -109,7 +109,7 @@ router.get("/viewTaskQnByRPId/:id", taskController.viewTaskQnByRPId);
 
 router.get("/viewAllTasks", taskController.viewAllTasks);
 router.post("/addAnswers/:id", taskController.addAnswers);
-
+router.get("/viewAddAnswersByParentId/:id", taskController.getAllAnswers);
 //blogs
 router.post("/addBlog", uploadSingleImg, blogs.addBlog);
 router.get("/viewAllBlogs", blogs.viewAllBlogs);
