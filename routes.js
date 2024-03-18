@@ -66,7 +66,7 @@ router.post(
 router.get("/viewAllCouncilars", councilarController.viewAllCouncilars);
 router.get("/viewCouncilarById/:id", councilarController.viewCouncilarById);
 router.post("/editCouncilarById/:id", councilarController.editCouncilarById);
-router.patch("/updatePassword/:id", councilarController.updatePassword);
+router.post("/updatePassword", councilarController.updatePassword);
 router.delete(
   "/deleteCouncilarById/:id",
   councilarController.deleteCouncilarById
