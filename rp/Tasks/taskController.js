@@ -345,6 +345,15 @@ const addAnswers = async (req, res) => {
   }
 };
 
+const getAllAnswers= async (req,res)=>{
+  console.log( req.params.id)
+  const data = await ansewrmodel.find({ parentid: req.params.id }); 
+  console.log(data)
+  res.send({
+    data:data
+  })
+}
+
 module.exports = {
   addQuestions,
   deleteTaskById,
@@ -352,4 +361,5 @@ module.exports = {
   viewTaskQnByRPId,
   viewAllTasks,
   addAnswers,
+  getAllAnswers
 };
