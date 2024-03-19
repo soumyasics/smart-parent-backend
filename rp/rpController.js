@@ -217,37 +217,36 @@ const RpCollection = async (req, res) => {
 };
 
 //forgotvPawd  by id
-const forgotPwd = (req, res) => {
-  RpModel.findOneAndUpdate(
-    { email: req.body.email },
-    {
-      password: req.body.password,
-    }
-  )
-    .exec()
-    .then((data) => {
-      if (data != null)
-        res.json({
-          status: 200,
-          msg: "Updated successfully",
-        });
-      else
-        res.json({
-          status: 500,
-          msg: "User Not Found",
-        });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.json({
-        status: 500,
-        msg: "Data not Updated",
-        Error: err,
-      });
-    });
-};
+const forgotPwd = async (req, res) => {
+  try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-const editrpById = async (req, res) => {
+    const updatedrp = await RpModel.findOneAndUpdate(
+      { email: req.body.email },
+      { password: hashedPassword },
+      { new: true } 
+    );
+
+    if (updatedrp) {
+      return res.json({
+        status: 200,
+        msg: "Password updated successfully",
+      });
+    } else {
+      return res.status(404).json({
+        status: 404,
+        msg: "rp not found",
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      status: 500,
+      msg: "Failed to update password",
+      error: err.message,
+    });
+  }
+};const editrpById = async (req, res) => {
   try {
     const id = req.params.id;
     if (!id) {

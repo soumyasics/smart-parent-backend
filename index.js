@@ -18,8 +18,8 @@ app.get('/', (req, res) => {
     res.send('working')
 })
 const route=require('./routes')
-app.use('/smart_parent',route)
+app.use('/smart_parent_api',route)
 
-app.listen(4009,()=>{
+app.listen(4007,()=>{
     console.log("Server created successfully");
 })

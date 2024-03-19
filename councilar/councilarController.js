@@ -200,31 +200,35 @@ const deleteCouncilarById = async (req, res) => {
   }
 };
 
+
 const updatePassword = async (req, res) => {
   try {
-    const { id, password } = req.body;
-    if (!id) {
-      return res.status(400).json({ message: "Id is required" });
-    }
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-    const councilar = await CouncilarModel.findById(id);
-    if (!councilar) {
-      return res.status(404).json({ message: "Councilar not found" });
-    }
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const updatedCouncilar = await CouncilarModel.findByIdAndUpdate(
-      id,
+    const updatedCouncilar = await CouncilarModel.findOneAndUpdate(
+      { email: req.body.email },
       { password: hashedPassword },
-      { new: true }
+      { new: true } 
     );
-    return res
-      .status(200)
-      .json({
-        message: "Password updated successfully",
-        data: updatedCouncilar,
+
+    if (updatedCouncilar) {
+      return res.json({
+        status: 200,
+        msg: "Password updated successfully",
       });
-  } catch (error) {
-    return res.status(500).json({ message: "server error on login rp", error });
+    } else {
+      return res.status(404).json({
+        status: 404,
+        msg: "Councilar not found",
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      status: 500,
+      msg: "Failed to update password",
+      error: err.message,
+    });
   }
 };
 
