@@ -13,6 +13,7 @@ const blogs = require("./rp/Blogs/blogController");
 const ctutorials = require("./councilar/Tutorials/tutorialController");
 const childs = require("./child/childController");
 const parentRpChatController = require("./Chats/parentRpChatController");
+const parentCouncilorChatController = require("./Chats/councilorParent/parentCouncilorChatController");
 
 const { uploadSingleImg } = require("./rp/middleware");
 
@@ -169,4 +170,24 @@ router.post(
 router.get("/getAllChats", parentRpChatController.getAllChats);
 router.post("/rpedit/:id", rpController.editrpById);
 
+
+router.post("/chattingParentCouncilor", parentCouncilorChatController.chattingParentCouncilor);
+router.post(
+  "/pc-viewChatRecipientsforParentId/:id",
+  parentCouncilorChatController.viewChatRecipientsforParentId
+);
+router.post(
+  "/viewChatRecipientsforCId/:id",
+  parentCouncilorChatController.viewChatRecipientsforCId
+);
+router.post(
+  "/viewChatBetweenParentAndCouncilors",
+  parentCouncilorChatController.viewChatBetweenParentAndCouncilors
+);
+router.post(
+  "/get-chat-between-parent-and-councilor",
+  parentCouncilorChatController.getAllChats
+);
+
+router.get("/parentcouncilorgetAllChats", parentCouncilorChatController.getAllChats);
 module.exports = router;
