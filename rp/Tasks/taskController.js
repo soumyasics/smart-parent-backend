@@ -206,7 +206,6 @@ const checkanswer1 = (ans, answers) => {
   }
 };
 const checkanswer2 = (ans, answers) => {
-  
   switch (ans) {
     case answers.op2_1:
       return answers.score2_1;
@@ -345,14 +344,22 @@ const addAnswers = async (req, res) => {
   }
 };
 
-const getAllAnswers= async (req,res)=>{
-  console.log( req.params.id)
-  const data = await ansewrmodel.find({ parentid: req.params.id }); 
-  console.log(data)
-  res.send({
-    data:data
-  })
-}
+const getAllAnswersByParentId = async (req, res) => {
+  console.log(req.params.id);
+  try {
+    const data = await ansewrmodel
+      .find({ parentid: req.params.id })
+      .populate("taskid")
+      .populate("rpid")
+      .exec();
+    console.log(data);
+    res.json({
+      data: data,
+    });
+  } catch (err) {
+    console.log("Error on get all answers", err);
+  }
+};
 
 module.exports = {
   addQuestions,
@@ -361,5 +368,5 @@ module.exports = {
   viewTaskQnByRPId,
   viewAllTasks,
   addAnswers,
-  getAllAnswers
+  getAllAnswersByParentId,
 };

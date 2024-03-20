@@ -110,7 +110,7 @@ router.get("/viewTaskQnByRPId/:id", taskController.viewTaskQnByRPId);
 
 router.get("/viewAllTasks", taskController.viewAllTasks);
 router.post("/addAnswers/:id", taskController.addAnswers);
-router.get("/viewAddAnswersByParentId/:id", taskController.getAllAnswers);
+router.get("/viewAddAnswersByParentId/:id", taskController.getAllAnswersByParentId);
 //blogs
 router.post("/addBlog", uploadSingleImg, blogs.addBlog);
 router.get("/viewAllBlogs", blogs.viewAllBlogs);
@@ -122,12 +122,12 @@ router.post("/deleteBlogsById/:id", blogs.deleteBlogsById);
 //consellor tutorials
 router.post(
   "/counselloraddTutorial",
-  ctutorials.upload,
+  rpController.multipleUpload,
   ctutorials.addTutorial
 );
 router.get("/viewAllcounsellorTutorials", ctutorials.getAllTutorials);
 router.get(
-  "/viewcounsellorTutorialByRpId/:id",
+  "/viewTutorialByCounsellorId/:id",
   ctutorials.getTutorialsByCouncellorId
 );
 router.get("/editcounsellorVideoTutorial/:id", ctutorials.editVideoTutorial);
@@ -186,7 +186,7 @@ router.post(
 );
 router.post(
   "/get-chat-between-parent-and-councilor",
-  parentCouncilorChatController.getAllChats
+  parentCouncilorChatController.viewChatBetweenParentAndCouncilors
 );
 
 router.get("/parentcouncilorgetAllChats", parentCouncilorChatController.getAllChats);

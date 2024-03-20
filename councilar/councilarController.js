@@ -77,6 +77,17 @@ const loginCouncilar = async (req, res) => {
         .status(404)
         .json({ message: "Please check your Email id and password" });
     }
+
+    if (councilar.isAdminApproved == "rejected") {
+      return res
+        .status(404)
+        .json({ message: "Your account has been rejected" });
+    }
+    if (councilar.isAdminApproved == "pending") {
+      return res
+        .status(404)
+        .json({ message: "Your account is not approved yet" });
+    }
     return res
       .status(200)
       .json({ message: "Login successfull", data: councilar });
@@ -337,7 +348,7 @@ const acceptRegistrationCounsellor = async (req, res) => {
     await councilar.save();
     return res
       .status(200)
-      .json({ message: "councilar registration accepted", data: councilar });
+      .json({ message: "Counsellor registration accepted", data: councilar });
   } catch (error) {
     return res
       .status(500)
@@ -361,7 +372,7 @@ const rejectRegistrationCounsellor = async (req, res) => {
     await councilar.save();
     return res
       .status(200)
-      .json({ message: "Councilar registration rejected", data: councilar });
+      .json({ message: "Counsellor registration rejected", data: councilar });
   } catch (error) {
     return res
       .status(500)
