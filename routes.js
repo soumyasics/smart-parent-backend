@@ -186,7 +186,7 @@ router.post(
 );
 router.post(
   "/get-chat-between-parent-and-councilor",
-  parentCouncilorChatController.getAllChats
+  parentCouncilorChatController.viewChatBetweenParentAndCouncilors
 );
 
 router.get("/parentcouncilorgetAllChats", parentCouncilorChatController.getAllChats);
