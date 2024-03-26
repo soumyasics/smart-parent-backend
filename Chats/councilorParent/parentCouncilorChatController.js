@@ -94,7 +94,6 @@ const viewChatRecipientsforCId = (req, res) => {
     });
 };
 const viewChatBetweenParentAndCouncilors = (req, res) => {
-  console.log("inps", req.body);
   let cid = req.body.cid;
   let parentid = req.body.parentid;
   cchat

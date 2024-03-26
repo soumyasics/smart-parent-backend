@@ -25,7 +25,6 @@ const registerCouncilar = async (req, res) => {
         .json({ message: "Resource Person with this email already exists" });
     }
 
-    console.log("reb", req.body);
     if (req.files && req.files.length > 0) {
       console.log("ok");
     } else {
@@ -254,7 +253,6 @@ const addRating = (req, res) => {
       rating = data.rating;
       if (data.rating != 0) rating = (rating + newRate) / 2;
       else rating = newRate;
-      console.log(rating);
       CouncilarModel.findByIdAndUpdate(
         { _id: req.params.id },
         {

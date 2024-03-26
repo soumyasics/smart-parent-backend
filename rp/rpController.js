@@ -32,7 +32,6 @@ const registerRp = async (req, res) => {
       console.log(" not ok");
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log(req.files);
 
     const proImg = req?.files[0] || null;
     const certImg = req?.files[1] || null;
@@ -171,7 +170,6 @@ const rejectRegistration = async (req, res) => {
 };
 
 const addRating = (req, res) => {
-  console.log("work ratin", req.body);
   let newRate = parseInt(req.body.rating);
   let rating = 0;
   RpModel.findById({ _id: req.params.id })
@@ -210,7 +208,6 @@ const RpCollection = async (req, res) => {
     const RpCollections = await RpModel.find({});
     const count = RpCollections.length;
     res.json({ count });
-    console.log(RpCollections);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

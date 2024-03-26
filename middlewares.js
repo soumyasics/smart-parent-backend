@@ -18,7 +18,6 @@ module.exports = { upload };
 
 const isEmailUnique = async (req, res, next) => {
   try {
-    console.log(req.body, "email");
     const email = req.body?.email || null;
     if (!email) {
       return res.status(400).json({ message: "Email is required" });

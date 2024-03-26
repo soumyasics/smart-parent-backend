@@ -345,14 +345,12 @@ const addAnswers = async (req, res) => {
 };
 
 const getAllAnswersByParentId = async (req, res) => {
-  console.log(req.params.id);
   try {
     const data = await ansewrmodel
       .find({ parentid: req.params.id })
       .populate("taskid")
       .populate("rpid")
       .exec();
-    console.log(data);
     res.json({
       data: data,
     });
