@@ -94,7 +94,6 @@ const viewChatRecipientsforRPId = (req, res) => {
     });
 };
 const viewChatBerweenParentAndRp = (req, res) => {
-  console.log("inps", req.body);
   let rpid = req.body.rpid;
   let parentid = req.body.parentid;
   chat

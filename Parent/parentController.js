@@ -15,7 +15,6 @@ const upload = multer({ storage: storage }).single("image");
 //User Registration
 
 const registerParent = async (req, res) => {
-  console.log("req.body", req.body);
 
   const newParent = await new parents({
     name: req.body.name,
@@ -160,7 +159,6 @@ const viewParentById = (req, res) => {
     .findOne({ _id: req.params.id })
     .exec()
     .then((data) => {
-      console.log(data);
       res.json({
         status: 200,
         msg: "Data obtained successfully",
@@ -182,7 +180,6 @@ const deleteParentById = (req, res) => {
     .findByIdAndDelete({ _id: req.params.id })
     .exec()
     .then((data) => {
-      console.log(data);
       res.json({
         status: 200,
         msg: "Data removed successfully",
@@ -236,7 +233,6 @@ const parentCollection = async (req, res) => {
     const parentCollections = await parents.find({});
     const count = parentCollections.length;
     res.json({ count });
-    console.log(parentCollections);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
