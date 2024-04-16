@@ -2,29 +2,29 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const complaintSchema = new Schema(
     {
-        for: {
-            type: String,
-            required: true
-        },
+       
         parentId: {
             type: Schema.Types.ObjectId,
             ref: "parents",
+            required:true
+
         },
         rpId: {
             type: Schema.Types.ObjectId,
             ref: "rp",
+            required:true
+
         },
-        cId: {
-            type: Schema.Types.ObjectId,
-            ref: "counsellors",
-        },
+        
         complaint: {
-            type: String
+            type: String,
+            required:true
+
         },
         actionTaken: {
             type: String,
             default: 'pending'
         }
     })
-const complaint = mongoose.model("complaints", complaintSchema);
+const complaint = mongoose.model("rpcomplaints", complaintSchema);
 module.exports = complaint;

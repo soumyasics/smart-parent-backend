@@ -14,7 +14,7 @@ const ctutorials = require("./councilar/Tutorials/tutorialController");
 const childs = require("./child/childController");
 const parentRpChatController = require("./Chats/parentRpChatController");
 const parentCouncilorChatController = require("./Chats/councilorParent/parentCouncilorChatController");
-
+const rpcomplaint=require('./complaints/complaintController')
 const { uploadSingleImg } = require("./rp/middleware");
 
 // common middlewares
@@ -190,4 +190,20 @@ router.post(
 );
 
 router.get("/parentcouncilorgetAllChats", parentCouncilorChatController.getAllChats);
+
+router.post('/addRPComplaint',rpcomplaint.addRPComplaint)
+router.post('/viewAllComplaintsForRPRemoval',rpcomplaint.viewAllComplaintsForRPRemoval)
+router.post('/viewComplaintsToBeRectified',rpcomplaint.viewComplaintsToBeRectified)
+router.post('/viewComplaints',rpcomplaint.viewComplaints)
+router.post('/sendWarningtoRP/:id',rpcomplaint.sendWarningtoRP)
+router.post('/deleteComplaintById/:id',rpcomplaint.deleteComplaintById)
+
+
+// councilor complaints
+router.post('/addCouncilorComplaint',rpcomplaint.addCouncilorComplaint)
+router.post('/viewAllComplaintsForCouncilorRemoval',rpcomplaint.viewAllComplaintsForCouncilorRemoval)
+router.post('/viewComplaintsToBeRectifiedforcouncilor',rpcomplaint.viewComplaintsToBeRectifiedforcouncilor)
+router.post('/sendWarningtocouncilor/:id',rpcomplaint.sendWarningtocouncilor)
+router.post('/deletecouncilorComplaintById/:id',rpcomplaint.deletecouncilorComplaintById)
+
 module.exports = router;
