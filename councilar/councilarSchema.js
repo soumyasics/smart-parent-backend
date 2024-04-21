@@ -21,7 +21,7 @@ const councilarSchema = mongoose.Schema(
     },
     contact: {
       type: String,
-      required:true
+      required: true,
     },
     isAdminApproved: {
       type: String,
@@ -38,6 +38,11 @@ const councilarSchema = mongoose.Schema(
     profilePicture: {
       type: Object,
       default: null,
+    },
+    status: {
+      type: String,
+      enum: ["active", "banned", "temp-ban"],
+      default: "active",
     },
   },
   {
