@@ -1,4 +1,5 @@
 const BannedRpModel = require("./bannedRpSchema");
+const RpModel = require("../rp/rpSchema");
 
 const banRp = async (req, res) => {
   try {
@@ -6,18 +7,32 @@ const banRp = async (req, res) => {
     if (!rpId || !bannedComplaintId) {
       return res.status(400).json({ message: "All fields are required" });
     }
-    const isRpAlreadyExists = await BannedRpModel.findOne({
+    const rp = await RpModel.findById(rpId);
+    if (!rp) {
+      return res.status(404).json({ message: "Resource Person not found" });
+    }
+    const isRpAlreadyExistsOnBanList = await BannedRpModel.findOne({
       rpId,
     });
-    if (isRpAlreadyExists) {
-      return res.status(409).json({ message: "Resource Person is already banned" });
+    
+    if (isRpAlreadyExistsOnBanList) {
+      return res
+        .status(409)
+        .json({ message: "Resource Person is already banned" });
     }
 
     const bannedRp = new BannedRpModel({
       rpId: req.body.rpId,
       bannedComplaintId: req.body.bannedComplaintId,
     });
+    
     await bannedRp.save();
+
+    // change rp status
+
+    rp.status = "banned";
+    await rp.save();
+
     res.status(200).json({
       message: "Resource Person banned successfully",
       data: bannedRp,
@@ -33,6 +48,10 @@ const unBanRp = async (req, res) => {
     if (!rpId) {
       return res.status(400).json({ message: "All fields are required" });
     }
+    const rp = await RpModel.findById(rpId);
+    if (!rp) {
+      return res.status(404).json({ message: "Resource Person not found" });
+    }
     const bannedRp = await BannedRpModel.findOne({ rpId });
     if (!bannedRp) {
       return res.status(401).json({ message: "RP is not banned yet." });
@@ -40,7 +59,9 @@ const unBanRp = async (req, res) => {
     const unBanRp = await BannedRpModel.findOneAndDelete({
       rpId: req.body.rpId,
     });
-    res.status(200).json({
+    rp.status = "active";
+    await rp.save();
+    return res.status(200).json({
       message: "Resource person unbanned successfully",
       data: unBanRp,
     });

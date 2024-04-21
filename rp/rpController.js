@@ -87,6 +87,9 @@ const loginRp = async (req, res) => {
         .status(404)
         .json({ message: "Your account is not approved yet" });
     }
+    if (rp?.status == "banned") {
+      return res.status(404).json({message: "Your account has been banned"})
+    }
     return res.status(200).json({ message: "Login successfull", rp });
   } catch (error) {
     return res.status(500).json({ message: "server error on login rp", error });
@@ -96,7 +99,8 @@ const loginRp = async (req, res) => {
 const viewAllRps = async (req, res) => {
   try {
     const rps = await RpModel.find();
-    return res.status(200).json({ message: "All Rps", data: rps });
+    let activeRps = rps.filter((rp) => rp?.status !== "banned" )
+    return res.status(200).json({ message: "All Rps", data: activeRps });
   } catch (error) {
     return res.status(500).json({ message: "server error on login rp", error });
   }
