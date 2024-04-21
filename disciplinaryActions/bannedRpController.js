@@ -10,7 +10,7 @@ const banRp = async (req, res) => {
       rpId,
     });
     if (isRpAlreadyExists) {
-      return res.status(409).json({ message: "RP is already banned" });
+      return res.status(409).json({ message: "Resource Person is already banned" });
     }
 
     const bannedRp = new BannedRpModel({
@@ -18,8 +18,8 @@ const banRp = async (req, res) => {
       bannedComplaintId: req.body.bannedComplaintId,
     });
     await bannedRp.save();
-    res.status(201).json({
-      message: "rp banned successfully",
+    res.status(200).json({
+      message: "Resource Person banned successfully",
       data: bannedRp,
     });
   } catch (error) {
@@ -41,7 +41,7 @@ const unBanRp = async (req, res) => {
       rpId: req.body.rpId,
     });
     res.status(200).json({
-      message: "rp unbanned successfully",
+      message: "Resource person unbanned successfully",
       data: unBanRp,
     });
   } catch (error) {

@@ -237,7 +237,7 @@ router.post(
 // ban rps
 router.post("/banRP", bannedRp.banRp);
 router.post("/unBanRP", bannedRp.unBanRp);
-router.get("/view-all-ban-rp", bannedRp.viewAllBannedRPs);
+router.get("/view-all-baned-rp", bannedRp.viewAllBannedRPs);
 router.get("/viewBanRpByRpId/:id", bannedRp.viewBannedRpByRpId);
 router.get("/viewBanRpById/:id", bannedRp.viewBannedRpById);
 module.exports = router;
