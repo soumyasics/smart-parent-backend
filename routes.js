@@ -14,14 +14,19 @@ const ctutorials = require("./councilar/Tutorials/tutorialController");
 const childs = require("./child/childController");
 const parentRpChatController = require("./Chats/parentRpChatController");
 const parentCouncilorChatController = require("./Chats/councilorParent/parentCouncilorChatController");
-const rpcomplaint=require('./complaints/complaintController')
+const rpcomplaint = require("./complaints/complaintController");
 const { uploadSingleImg } = require("./rp/middleware");
+const bannedRp = require("./disciplinaryActions/bannedRpController");
 
 // common middlewares
 const { isEmailUnique } = require("./middlewares");
 // resource person middlewares
 const { checkEmailAndPassword } = require("./rp/middleware");
 
+// checing route
+router.get("/", (req, res) => {
+  res.send("http://localhost:4007/smart_parent_api working");
+});
 //Parent routes
 router.post("/registerParent", parentController.registerParent);
 router.post("/loginParent", parentController.loginParent);
@@ -110,7 +115,10 @@ router.get("/viewTaskQnByRPId/:id", taskController.viewTaskQnByRPId);
 
 router.get("/viewAllTasks", taskController.viewAllTasks);
 router.post("/addAnswers/:id", taskController.addAnswers);
-router.get("/viewAddAnswersByParentId/:id", taskController.getAllAnswersByParentId);
+router.get(
+  "/viewAddAnswersByParentId/:id",
+  taskController.getAllAnswersByParentId
+);
 //blogs
 router.post("/addBlog", uploadSingleImg, blogs.addBlog);
 router.get("/viewAllBlogs", blogs.viewAllBlogs);
@@ -170,8 +178,10 @@ router.post(
 router.get("/getAllChats", parentRpChatController.getAllChats);
 router.post("/rpedit/:id", rpController.editrpById);
 
-
-router.post("/chattingParentCouncilor", parentCouncilorChatController.chattingParentCouncilor);
+router.post(
+  "/chattingParentCouncilor",
+  parentCouncilorChatController.chattingParentCouncilor
+);
 router.post(
   "/pc-viewChatRecipientsforParentId/:id",
   parentCouncilorChatController.viewChatRecipientsforParentId
@@ -189,21 +199,45 @@ router.post(
   parentCouncilorChatController.viewChatBetweenParentAndCouncilors
 );
 
-router.get("/parentcouncilorgetAllChats", parentCouncilorChatController.getAllChats);
+router.get(
+  "/parentcouncilorgetAllChats",
+  parentCouncilorChatController.getAllChats
+);
 
-router.post('/addRPComplaint',rpcomplaint.addRPComplaint)
-router.post('/viewAllComplaintsForRPRemoval',rpcomplaint.viewAllComplaintsForRPRemoval)
-router.post('/viewComplaintsToBeRectified',rpcomplaint.viewComplaintsToBeRectified)
-router.post('/viewComplaints',rpcomplaint.viewComplaints)
-router.post('/sendWarningtoRP/:id',rpcomplaint.sendWarningtoRP)
-router.post('/deleteComplaintById/:id',rpcomplaint.deleteComplaintById)
-
+// rp complaints
+router.post("/addRPComplaint", rpcomplaint.addRPComplaint);
+router.post(
+  "/viewAllComplaintsForRPRemoval",
+  rpcomplaint.viewAllComplaintsForRPRemoval
+);
+router.post(
+  "/viewComplaintsToBeRectified",
+  rpcomplaint.viewComplaintsToBeRectified
+);
+router.post("/viewComplaints", rpcomplaint.viewComplaints);
+router.post("/sendWarningtoRP/:id", rpcomplaint.sendWarningtoRP);
+router.post("/deleteComplaintById/:id", rpcomplaint.deleteComplaintById);
 
 // councilor complaints
-router.post('/addCouncilorComplaint',rpcomplaint.addCouncilorComplaint)
-router.post('/viewAllComplaintsForCouncilorRemoval',rpcomplaint.viewAllComplaintsForCouncilorRemoval)
-router.post('/viewComplaintsToBeRectifiedforcouncilor',rpcomplaint.viewComplaintsToBeRectifiedforcouncilor)
-router.post('/sendWarningtocouncilor/:id',rpcomplaint.sendWarningtocouncilor)
-router.post('/deletecouncilorComplaintById/:id',rpcomplaint.deletecouncilorComplaintById)
+router.post("/addCouncilorComplaint", rpcomplaint.addCouncilorComplaint);
+router.post(
+  "/viewAllComplaintsForCouncilorRemoval",
+  rpcomplaint.viewAllComplaintsForCouncilorRemoval
+);
+router.post(
+  "/viewComplaintsToBeRectifiedforcouncilor",
+  rpcomplaint.viewComplaintsToBeRectifiedforcouncilor
+);
+router.post("/sendWarningtocouncilor/:id", rpcomplaint.sendWarningtocouncilor);
+router.post(
+  "/deletecouncilorComplaintById/:id",
+  rpcomplaint.deletecouncilorComplaintById
+);
 
+// ban rps
+router.post("/banRP", bannedRp.banRp);
+router.post("/unBanRP", bannedRp.unBanRp);
+router.get("/view-all-ban-rp", bannedRp.viewAllBannedRPs);
+router.get("/viewBanRpByRpId/:id", bannedRp.viewBannedRpByRpId);
+router.get("/viewBanRpById/:id", bannedRp.viewBannedRpById);
 module.exports = router;
