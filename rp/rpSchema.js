@@ -45,6 +45,11 @@ const rpSchema = mongoose.Schema(
     rating:{
       type:Number,
       default:0
+    },
+    status: {
+      type: String,
+      enum: ["active", "banned", "temp-ban"],
+      default: "active",
     }
   },
   {

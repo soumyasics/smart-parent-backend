@@ -93,9 +93,14 @@ const getAllSubscriptionByParentId = async (req, res) => {
       .populate("parentId")
       .populate("resourcePersonId")
       .exec();
+
+    const withoutBannedRps = getAllSubscription.filter((sub) => {
+      return sub?.resourcePersonId?.status !== "banned";
+    })
+
     return res
       .status(200)
-      .json({ message: "All Subscription", data: getAllSubscription });
+      .json({ message: "All Subscription", data: withoutBannedRps });
   } catch (error) {
     return res
       .status(500)
