@@ -18,6 +18,24 @@ const addRPComplaint = async (req, res) => {
     data: newcomplaint,
   });
 };
+const viewComplaints = (req, res) => {
+  Complaint.find({})
+    .populate("parentId")
+    .populate("rpId")
+    .then((complaints) => {
+      res.status(200).json({
+        message: "Complaints retrieved successfully",
+        data: complaints,
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({
+        message: "Error retrieving complaints",
+        error: err,
+      });
+    });
+};
 
 const viewAllComplaintsForRPRemoval = (req, res) => {
   Complaint.find({ actionTaken: "warningsend" })
@@ -97,25 +115,6 @@ const deleteComplaintById = (req, res) => {
     });
 };
 
-const viewComplaints = (req, res) => {
-  Complaint.find({})
-    .populate("parentId")
-    .populate("rpId")
-    .then((complaints) => {
-      res.status(200).json({
-        message: "Complaints retrieved successfully",
-        data: complaints,
-      });
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).json({
-        message: "Error retrieving complaints",
-        error: err,
-      });
-    });
-};
-
 // -------------------------------------------------------------------------------
 
 const addCouncilorComplaint = async (req, res) => {
@@ -136,6 +135,26 @@ const addCouncilorComplaint = async (req, res) => {
   });
 };
 
+const viewAllCouncilorComplaints = async (req, res) => {
+  
+  CounselorComplaintModel.find({})
+      .populate("parentId")
+      .populate("cId")
+      .then((complaints) => {
+        res.status(200).json({
+          message: "Complaints retrieved successfully",
+          data: complaints,
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).json({
+          message: "Error retrieving complaints",
+          error: err,
+        });
+      });
+ 
+};
 const viewAllComplaintsForCouncilorRemoval = (req, res) => {
   CounselorComplaintModel.find({ actionTaken: "warningsend" }).populate("cId");
   exec()
@@ -155,8 +174,7 @@ const viewAllComplaintsForCouncilorRemoval = (req, res) => {
 };
 
 const viewComplaintsToBeRectifiedforcouncilor = (req, res) => {
-  CounselorComplaintModel
-    .find({ actionTaken: "pending" })
+  CounselorComplaintModel.find({ actionTaken: "pending" })
     .populate("cId")
     .exec()
     .then((complaints) => {
@@ -175,8 +193,10 @@ const viewComplaintsToBeRectifiedforcouncilor = (req, res) => {
 };
 
 const sendWarningtocouncilor = (req, res) => {
-  CounselorComplaintModel
-    .findByIdAndUpdate({ _id: req.params.id }, { actionTaken: "warningsend" })
+  CounselorComplaintModel.findByIdAndUpdate(
+    { _id: req.params.id },
+    { actionTaken: "warningsend" }
+  )
     .exec()
     .then((complaints) => {
       res.status(200).json({
@@ -194,8 +214,7 @@ const sendWarningtocouncilor = (req, res) => {
 };
 
 const deletecouncilorComplaintById = (req, res) => {
-  CounselorComplaintModel
-    .findByIdAndDelete({ _id: req.params.id })
+  CounselorComplaintModel.findByIdAndDelete({ _id: req.params.id })
     .exec()
     .then((complaints) => {
       res.status(200).json({
@@ -231,6 +250,7 @@ const viewComplaintsAgainstCounselor = (req, res) => {
     });
 };
 
+
 module.exports = {
   addRPComplaint,
   viewComplaints,
@@ -243,5 +263,5 @@ module.exports = {
   viewAllComplaintsForCouncilorRemoval,
   viewComplaintsToBeRectifiedforcouncilor,
   sendWarningtocouncilor,
-  deletecouncilorComplaintById,
+  deletecouncilorComplaintById,viewAllCouncilorComplaints
 };
