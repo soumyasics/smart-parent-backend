@@ -11,13 +11,12 @@ const storage = multer.diskStorage({
   },
 });
 
-
 const multipleUpload = multer({ storage: storage }).array("files", 2);
 
 const registerCouncilar = async (req, res) => {
   try {
     const { name, email, password, contact, age, experienceYear } = req.body;
-    
+
     const existingCounselor = await CouncilarModel.findOne({ email });
     if (existingCounselor) {
       return res
@@ -69,6 +68,11 @@ const loginCouncilar = async (req, res) => {
         .status(404)
         .json({ message: "Please check your Email id and password" });
     }
+    if (councilar.status == "banned") {
+      return res
+        .status(404)
+        .json({ message: "Your account has been banned" });
+    }
 
     const isPasswordValid = await bcrypt.compare(password, councilar.password);
     if (!isPasswordValid) {
@@ -97,15 +101,17 @@ const loginCouncilar = async (req, res) => {
 
 const viewAllCouncilars = async (req, res) => {
   try {
-
-
     const councilars = await CouncilarModel.find();
-
+    const unBannedCouncilars = councilars.filter((coun) => {
+      return coun.status !== "banned";
+    })
     return res
       .status(200)
-      .json({ message: "All Councilars", data: councilars });
+      .json({ message: "All Councilars", data: unBannedCouncilars });
   } catch (error) {
-    return res.status(500).json({ message: "server error on login Councilars", error });
+    return res
+      .status(500)
+      .json({ message: "server error on login Councilars", error });
   }
 };
 
@@ -166,12 +172,10 @@ const editCouncilarById = async (req, res) => {
       { new: true }
     );
 
-    return res
-      .status(200)
-      .json({
-        message: "Councilar updated successfully",
-        data: updatedCouncilar,
-      });
+    return res.status(200).json({
+      message: "Councilar updated successfully",
+      data: updatedCouncilar,
+    });
   } catch (error) {
     return res.status(500).json({ message: "server error on login rp", error });
   }
@@ -199,7 +203,6 @@ const deleteCouncilarById = async (req, res) => {
   }
 };
 
-
 const updatePassword = async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -207,7 +210,7 @@ const updatePassword = async (req, res) => {
     const updatedCouncilar = await CouncilarModel.findOneAndUpdate(
       { email: req.body.email },
       { password: hashedPassword },
-      { new: true } 
+      { new: true }
     );
 
     if (updatedCouncilar) {
@@ -242,7 +245,6 @@ const counsellorCollection = async (req, res) => {
   }
 };
 
-
 //soumya
 const addRating = (req, res) => {
   let newRate = parseInt(req.body.rating);
@@ -276,7 +278,6 @@ const addRating = (req, res) => {
         });
     });
 };
-
 
 // const viewCouncillorReqs = (req, res) => {
 //   CouncilarModel
@@ -378,6 +379,63 @@ const rejectRegistrationCounsellor = async (req, res) => {
   }
 };
 
+const banCounselor = async (req, res) => {
+  try {
+    const {cId} = req.body;
+    if (!cId) {
+      return res.status(400).json({ message: "Counsellor Id is required" });
+    }
+    const currCounsellor = await CouncilarModel.findById(cId);
+    if (!currCounsellor) {
+      return res.status(404).json({ message: "Councilar not found" });
+    }
+    currCounsellor.status = "banned";
+
+    await currCounsellor.save();
+    return res
+      .status(200)
+      .json({ message: "Councilar banned successfully", data: currCounsellor });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "server error on ban Councilar", error });
+  }
+};
+const unBanCounselor = async (req, res) => {
+  try {
+    const {cId} = req.body;
+    if (!cId) {
+      return res.status(400).json({ message: "Id is required" });
+    }
+    const councilar = await CouncilarModel.findById(cId);
+    if (!councilar) {
+      return res.status(404).json({ message: "Councilar not found" });
+    }
+    councilar.status = "active";
+    await councilar.save();
+    return res
+      .status(200)
+      .json({ message: "Councilar unbanned successfully", data: councilar });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ err, message: "Server error on unban counselor" });
+  }
+};
+const viewAllBannedCounselor = async (req, res) => {
+  try {
+    const allBannedCounselors = await CouncilarModel.find({ status: "banned" });
+    return res.status(200).json({
+      message: "All banned counsellors",
+      data: allBannedCounselors,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error retrieving complaints",
+      error: error,
+    });
+  }
+};
 module.exports = {
   registerCouncilar,
   loginCouncilar,
@@ -390,5 +448,8 @@ module.exports = {
   multipleUpload,
   addRating,
   acceptRegistrationCounsellor,
-  rejectRegistrationCounsellor
+  rejectRegistrationCounsellor,
+  banCounselor,
+  unBanCounselor,
+  viewAllBannedCounselor
 };

@@ -21,5 +21,5 @@ const complaintSchema = new Schema({
     default: "pending",
   },
 });
-const complaint = mongoose.model("concillorcomplaints", complaintSchema);
-module.exports = complaint;
+const CouncillorComplaintModel = mongoose.model("concillorcomplaints", complaintSchema);
+module.exports = CouncillorComplaintModel;

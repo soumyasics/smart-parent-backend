@@ -220,6 +220,10 @@ router.post("/deleteComplaintById/:id", rpcomplaint.deleteComplaintById);
 
 // councilor complaints
 router.post("/addCouncilorComplaint", rpcomplaint.addCouncilorComplaint);
+router.get(
+  "/view-all-councilor-complaints",
+  rpcomplaint.viewAllCouncilorComplaints
+);
 router.post(
   "/viewAllComplaintsForCouncilorRemoval",
   rpcomplaint.viewAllComplaintsForCouncilorRemoval
@@ -240,4 +244,12 @@ router.post("/unBanRP", bannedRp.unBanRp);
 router.get("/view-all-baned-rp", bannedRp.viewAllBannedRPs);
 router.get("/viewBanRpByRpId/:id", bannedRp.viewBannedRpByRpId);
 router.get("/viewBanRpById/:id", bannedRp.viewBannedRpById);
+
+//ban counsellors
+router.post("/banCounsellor", councilarController.banCounselor);
+router.post("/unBanCounsellor", councilarController.unBanCounselor);
+router.get(
+  "/view-all-baned-counsellor",
+  councilarController.viewAllBannedCounselor
+);
 module.exports = router;
