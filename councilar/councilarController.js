@@ -68,6 +68,11 @@ const loginCouncilar = async (req, res) => {
         .status(404)
         .json({ message: "Please check your Email id and password" });
     }
+    if (councilar.status == "banned") {
+      return res
+        .status(404)
+        .json({ message: "Your account has been banned" });
+    }
 
     const isPasswordValid = await bcrypt.compare(password, councilar.password);
     if (!isPasswordValid) {
@@ -97,10 +102,12 @@ const loginCouncilar = async (req, res) => {
 const viewAllCouncilars = async (req, res) => {
   try {
     const councilars = await CouncilarModel.find();
-
+    const unBannedCouncilars = councilars.filter((coun) => {
+      return coun.status !== "banned";
+    })
     return res
       .status(200)
-      .json({ message: "All Councilars", data: councilars });
+      .json({ message: "All Councilars", data: unBannedCouncilars });
   } catch (error) {
     return res
       .status(500)
